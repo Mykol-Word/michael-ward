@@ -1,0 +1,301 @@
+---
+import '../styles/global.css';
+
+// Define your projects/experience here - add or remove items as needed
+const projects = [
+	{
+		title: "Project/Position Name",
+		date: "Jan 2024 - Present",
+		description: "Description of the project or position. Explain what you did, the technologies used, and the impact of your work. Keep it concise but informative.",
+		color: "blue"
+	},
+	{
+		title: "Another Project",
+		date: "Jun 2023 - Dec 2023",
+		description: "Another project description. Detail the key accomplishments, challenges overcome, and skills developed during this experience.",
+		color: "purple"
+	},
+	{
+		title: "Research Position",
+		date: "Sep 2022 - May 2023",
+		description: "Research or academic position description. Highlight research contributions, publications, or significant findings from this experience.",
+		color: "green"
+	},
+	{
+		title: "Side Project",
+		date: "2022",
+		description: "Personal side project description. Explain the motivation behind the project and what you learned from building it.",
+		color: "orange"
+	},
+	{
+		title: "Internship",
+		date: "Summer 2021",
+		description: "Internship experience description. Share what you learned, the team you worked with, and the impact of your contributions.",
+		color: "pink"
+	}
+];
+
+const colorClasses = {
+	blue: "border-blue-500",
+	purple: "border-purple-500",
+	green: "border-green-500",
+	orange: "border-orange-500",
+	pink: "border-pink-500",
+};
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Your Name - Personal Website</title>
+	</head>
+	<body class="min-h-screen relative" style="background: repeating-linear-gradient(45deg, #2d5016, #2d5016 10px, #3a6b1e 10px, #3a6b1e 20px);">
+		<div class="max-w-4xl mx-auto px-6 py-12">
+			<!-- Profile Section -->
+			<div class="retro-panel mb-8">
+				<div class="retro-title-bar">
+					<span class="retro-title-text">Profile</span>
+				</div>
+				<div class="retro-content">
+					<div class="flex items-start gap-6">
+						<!-- Profile Picture -->
+						<div class="flex-shrink-0">
+							<div class="retro-avatar">
+								<div class="retro-avatar-inner">
+									YN
+								</div>
+							</div>
+						</div>
+
+						<!-- Name and Description -->
+						<div class="flex-1">
+							<h1 class="retro-wordart mb-4">Your Name</h1>
+							<div class="space-y-2">
+								<div class="retro-stat-box">
+									<span class="retro-label">School:</span>
+									<span class="retro-value">University Name - Computer Science</span>
+								</div>
+								<div class="retro-stat-box">
+									<span class="retro-label">Contact:</span>
+									<a href="mailto:your.email@example.com" class="retro-link">your.email@example.com</a>
+								</div>
+								<div class="retro-stat-box">
+									<span class="retro-label">About:</span>
+									<span class="retro-value">A brief description about yourself. Talk about your interests, passions, and what drives you in your field.</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Projects Section -->
+			<div class="retro-panel">
+				<div class="retro-title-bar">
+					<span class="retro-title-text">Projects & Experience</span>
+				</div>
+				<div class="retro-content">
+					<div class="space-y-4">
+						{projects.map((project, index) => (
+							<div class="retro-quest-item">
+								<div class="flex justify-between items-start mb-2">
+									<h3 class="retro-quest-title">{project.title}</h3>
+									<span class="retro-date-badge">{project.date}</span>
+								</div>
+								<p class="retro-quest-text">
+									{project.description}
+								</p>
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<style>
+			/* RuneScape/Retro Panel Styles */
+			.retro-panel {
+				background: linear-gradient(135deg, #c9a961 0%, #a58a54 100%);
+				border: 4px outset #d4af6a;
+				box-shadow:
+					0 8px 0 #5c4a2f,
+					0 8px 16px rgba(0, 0, 0, 0.6),
+					inset 0 2px 0 #e6d4a8;
+			}
+
+			.retro-title-bar {
+				background: linear-gradient(180deg, #8b6f47 0%, #5c4a2f 100%);
+				border: 2px solid #3d2f1f;
+				border-bottom: 3px solid #2a1f14;
+				padding: 8px 16px;
+				margin: -4px -4px 0 -4px;
+				box-shadow: inset 0 1px 0 #9d8359;
+			}
+
+			.retro-title-text {
+				font-size: 1.5rem;
+				font-weight: bold;
+				color: #ffd700;
+				text-shadow:
+					2px 2px 0 #8b4513,
+					-1px -1px 0 #000,
+					1px -1px 0 #000,
+					-1px 1px 0 #000,
+					1px 1px 0 #000;
+				font-family: 'Arial Black', sans-serif;
+				letter-spacing: 1px;
+			}
+
+			.retro-content {
+				padding: 20px;
+				background: repeating-linear-gradient(
+					0deg,
+					rgba(255, 255, 255, 0.03) 0px,
+					rgba(255, 255, 255, 0.03) 1px,
+					transparent 1px,
+					transparent 2px
+				);
+			}
+
+			/* Profile Avatar */
+			.retro-avatar {
+				width: 140px;
+				height: 140px;
+				border: 5px ridge #8b6f47;
+				background: linear-gradient(135deg, #654321 0%, #3d2817 100%);
+				box-shadow:
+					0 6px 0 #3d2f1f,
+					0 6px 12px rgba(0, 0, 0, 0.8),
+					inset 0 -3px 8px rgba(0, 0, 0, 0.5);
+			}
+
+			.retro-avatar-inner {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffd700 100%);
+				font-size: 3rem;
+				font-weight: 900;
+				color: white;
+				text-shadow:
+					3px 3px 0 rgba(0, 0, 0, 0.5),
+					-1px -1px 0 rgba(0, 0, 0, 0.3);
+				font-family: 'Impact', sans-serif;
+			}
+
+			/* WordArt-style Name */
+			.retro-wordart {
+				font-size: 2.5rem;
+				font-weight: 900;
+				background: linear-gradient(45deg,
+					#ff0000 0%,
+					#ff7f00 14%,
+					#ffff00 28%,
+					#00ff00 42%,
+					#0000ff 57%,
+					#4b0082 71%,
+					#9400d3 85%,
+					#ff0000 100%
+				);
+				-webkit-background-clip: text;
+				background-clip: text;
+				-webkit-text-fill-color: transparent;
+				filter: drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.4));
+				font-family: 'Impact', 'Arial Black', sans-serif;
+				letter-spacing: 2px;
+				transform: perspective(10px) rotateX(2deg);
+			}
+
+			/* Stat Boxes */
+			.retro-stat-box {
+				background: linear-gradient(135deg, #8b7355 0%, #6b5845 100%);
+				border: 3px groove #a58a54;
+				padding: 8px 12px;
+				box-shadow:
+					inset 0 2px 4px rgba(0, 0, 0, 0.3),
+					0 2px 0 rgba(255, 255, 255, 0.1);
+			}
+
+			.retro-label {
+				font-weight: bold;
+				color: #ffd700;
+				text-shadow: 1px 1px 0 #000;
+				font-family: 'Arial', sans-serif;
+			}
+
+			.retro-value {
+				color: #ffffff;
+				text-shadow: 1px 1px 0 #000;
+				font-family: 'Arial', sans-serif;
+			}
+
+			.retro-link {
+				color: #00ffff;
+				text-shadow: 1px 1px 0 #000;
+				text-decoration: underline;
+				font-family: 'Arial', sans-serif;
+				transition: color 0.2s;
+			}
+
+			.retro-link:hover {
+				color: #ff00ff;
+				text-decoration: underline wavy;
+			}
+
+			/* Quest Items */
+			.retro-quest-item {
+				background: linear-gradient(135deg, #8b7355 0%, #6b5845 100%);
+				border: 4px ridge #a58a54;
+				padding: 12px 16px;
+				box-shadow:
+					0 4px 0 #3d2f1f,
+					0 4px 8px rgba(0, 0, 0, 0.6),
+					inset 0 1px 0 #9d8359;
+				transition: transform 0.2s, box-shadow 0.2s;
+			}
+
+			.retro-quest-item:hover {
+				transform: translateY(-2px);
+				box-shadow:
+					0 6px 0 #3d2f1f,
+					0 6px 12px rgba(0, 0, 0, 0.7),
+					inset 0 1px 0 #9d8359;
+			}
+
+			.retro-quest-title {
+				font-size: 1.5rem;
+				font-weight: bold;
+				color: #ffd700;
+				text-shadow:
+					2px 2px 0 #000,
+					-1px -1px 0 #000;
+				font-family: 'Arial Black', sans-serif;
+			}
+
+			.retro-date-badge {
+				background: linear-gradient(180deg, #ff6b35 0%, #c7522a 100%);
+				color: white;
+				padding: 6px 12px;
+				border: 3px outset #ff8c61;
+				font-weight: bold;
+				font-family: 'Arial', sans-serif;
+				text-shadow: 1px 1px 0 #000;
+				box-shadow:
+					0 3px 0 #8b3a1f,
+					0 3px 6px rgba(0, 0, 0, 0.5);
+			}
+
+			.retro-quest-text {
+				color: #f0e6d2;
+				font-family: 'Arial', sans-serif;
+				text-shadow: 1px 1px 0 #000;
+				line-height: 1.6;
+			}
+		</style>
+	</body>
+</html>
