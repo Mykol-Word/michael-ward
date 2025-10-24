@@ -23,6 +23,9 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# hidden folders
-.claude
-.vscode
+# other
+.claude/
+.vscode/
+
+# Claude Code project instructions
+CLAUDE.md

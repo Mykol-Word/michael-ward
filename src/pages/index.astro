@@ -53,7 +53,11 @@ const colorClasses = {
 		<title>Your Name - Personal Website</title>
 	</head>
 	<body class="min-h-screen relative" style="background: repeating-linear-gradient(45deg, #2d5016, #2d5016 10px, #3a6b1e 10px, #3a6b1e 20px);">
-		<div class="max-w-4xl mx-auto px-6 py-12">
+		<div id="score-display" class="fixed top-4 right-4 z-50 retro-score">
+			Gold: <span id="score">0</span>
+		</div>
+
+		<div class="max-w-4xl mx-auto px-6 py-12 relative z-10">
 			<!-- Profile Section -->
 			<div class="retro-panel mb-8">
 				<div class="retro-title-bar">
@@ -296,6 +300,165 @@ const colorClasses = {
 				text-shadow: 1px 1px 0 #000;
 				line-height: 1.6;
 			}
+
+			/* Minigame Styles */
+			.retro-score {
+				background: linear-gradient(135deg, #c9a961 0%, #a58a54 100%);
+				border: 4px outset #d4af6a;
+				padding: 12px 20px;
+				font-size: 1.25rem;
+				font-weight: bold;
+				color: #ffd700;
+				text-shadow: 2px 2px 0 #000;
+				font-family: 'Arial Black', sans-serif;
+				box-shadow:
+					0 4px 0 #5c4a2f,
+					0 4px 8px rgba(0, 0, 0, 0.6);
+			}
+
+			.game-coin {
+				width: 30px;
+				height: 30px;
+				cursor: pointer;
+			}
+
+			.game-coin:hover {
+				transform: scale(1.2);
+			}
+
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+					transform: scale(1);
+				}
+				100% {
+					opacity: 0;
+					transform: scale(0.3);
+				}
+			}
+
+			@keyframes coinAppear {
+				0% {
+					opacity: 0;
+					transform: scale(0);
+				}
+				50% {
+					transform: scale(1.2);
+				}
+				100% {
+					opacity: 1;
+					transform: scale(1);
+				}
+			}
+
+			@keyframes float {
+				0%, 100% {
+					transform: translateY(0px);
+				}
+				50% {
+					transform: translateY(-20px);
+				}
+			}
+
+			@keyframes spin {
+				0% {
+					transform: rotateY(0deg);
+				}
+				100% {
+					transform: rotateY(360deg);
+				}
+			}
+
+			@keyframes collect {
+				0% {
+					transform: scale(1);
+					opacity: 1;
+				}
+				100% {
+					transform: scale(2) translateY(-50px);
+					opacity: 0;
+				}
+			}
 		</style>
+
+		<script is:inline>
+			// Minigame Script
+			document.addEventListener('DOMContentLoaded', () => {
+				let score = 0;
+				const scoreDisplay = document.getElementById('score');
+
+				if (!scoreDisplay) {
+					console.error('Score display not found');
+					return;
+				}
+
+				function createCoin() {
+					const coin = document.createElement('div');
+					coin.className = 'game-coin';
+
+					// Add image element
+					const img = document.createElement('img');
+					img.src = '/images/coin.png';
+					img.style.width = '30px';
+					img.style.height = '30px';
+					img.style.display = 'block';
+					coin.appendChild(img);
+
+					// Random position - avoid center content area
+					const centerStart = (window.innerWidth - 896) / 2; // max-w-4xl is ~896px
+					const centerEnd = centerStart + 1000;
+					let x;
+
+					// Spawn only on sides (not over main content)
+					if (Math.random() < 0.5) {
+						// Left side
+						x = Math.random() * Math.max(0, centerStart - 50);
+					} else {
+						// Right side
+						x = centerEnd + (Math.random() * Math.max(0, window.innerWidth - centerEnd - 50));
+					}
+
+					const y = Math.random() * (window.innerHeight - 50);
+
+					// Set all positioning inline
+					coin.style.position = 'fixed';
+					coin.style.left = x + 'px';
+					coin.style.top = y + 'px';
+					coin.style.zIndex = '40';
+					coin.style.opacity = '0';
+					coin.style.animation = 'coinAppear 0.5s ease-out forwards';
+					coin.style.animationDelay = Math.random() * 2 + 's';
+
+					// Click handler
+					coin.addEventListener('click', () => {
+						score++;
+						scoreDisplay.textContent = score;
+
+						// Collect animation
+						coin.style.animation = 'collect 0.5s ease-out forwards';
+						setTimeout(() => {
+							coin.remove();
+						}, 500);
+					});
+
+					document.body.appendChild(coin);
+
+					// Auto-remove after 8 seconds with fade animation
+					setTimeout(() => {
+						if (coin.parentElement) {
+							coin.style.animation = 'fadeOut 0.8s ease-out forwards';
+							setTimeout(() => coin.remove(), 800);
+						}
+					}, 8000);
+				}
+
+				// Spawn coins periodically
+				setInterval(createCoin, 2000);
+
+				// Initial coins
+				setTimeout(createCoin, 500);
+				setTimeout(createCoin, 1000);
+			});
+		</script>
 	</body>
 </html>
