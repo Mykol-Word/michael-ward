@@ -1,0 +1,47 @@
+[
+  {
+    "category": "Embedded Systems",
+    "projects": [
+      {
+        "title": "Micromouse",
+        "date": "October 2023 - May 2025",
+        "description": "Built an autonomous maze-solving robot, or 'micromouse', from the ground up. Using both Autodesk Fusion 360 and KiCad, I designed custom schematics and PCBs. My first iteration competed in the 2024 All American Micromouse Competition (AAMC24) and got 5th place. My second iteration (significantly more compact and smooth) got 3rd in AAMC25 the following year.",
+        "links": [
+          { "label": "GitHub", "url": "https://github.com/Mykol-Word/the-harness" },
+          { "label": "21.64 (sec) Completion", "url": "https://www.youtube.com/live/5uL4w6jP68s?si=Gb5_aMwtCqog30GL&t=6554" }
+        ]
+      },
+      {
+        "title": "FPGA Digital Design and Verification",
+        "date": "October 2024 - March 2025",
+        "description": "In this project I explored the fundamentals of digital hardware design and verification using SystemVerilog on an Altera DE10-Lite FPGA. I implemented a basic arithmetic logic unit (ALU) and a simple slot machine. To extend functionality, I developed custom I²C and VGA drivers to interface with external peripherals and display output on a monitor. Overall, learned a lot about modular design, RTL development, and testbenching.",
+        "links": [
+          { "label": "GitHub", "url": "https://github.com/Mykol-Word/dav-24" }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Software Developemet",
+    "projects": [
+      {
+        "title": "Terminal Task Manager",
+        "date": "February 2025",
+        "description": "I didn't want to use a bulky task manager, so I made my own lightweight terminal-based task manager using C++. Tasks are persistently stored in custom task-object format in a local file. A custom parser then reconstructs the tasks upon running the application. It supports a set of terminal commands to add, delete, archive, and modify tasks.",
+        "links" : [
+          { "label": "GitHub", "url": "https://github.com/Mykol-Word/task-manager"}
+        ]
+      },
+      {
+        "title": "Worm Escape Game",
+        "date": "September 2024",
+        "description": "A web-based simulation of the escape mechanics from 'Last Train Out of Wormtown.' It uses a React frontend, Typescript, and Vite for building. I never got around to finishing the project (only the 'Play' and 'Home' pages work), but the core functionality of the game works (You must click on the left-most image to start (i.e. focus it). Use 'WASD' for the arrows, and spacebar for the jump).",
+        "links" : [
+          { "label": "GitHub", "url": "https://github.com/Mykol-Word/worm-escape-game"},
+          { "label": "Play 'Worm Escape'", "url": "https://mykol-word.github.io/worm-escape-game/"}
+        ]
+      }
+      
+    ]
+  }
+]

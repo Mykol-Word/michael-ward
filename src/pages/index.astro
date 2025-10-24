@@ -1,39 +1,7 @@
 ---
 import '../styles/global.css';
-
-// Define your projects/experience here - add or remove items as needed
-const projects = [
-	{
-		title: "Project/Position Name",
-		date: "Jan 2024 - Present",
-		description: "Description of the project or position. Explain what you did, the technologies used, and the impact of your work. Keep it concise but informative.",
-		color: "blue"
-	},
-	{
-		title: "Another Project",
-		date: "Jun 2023 - Dec 2023",
-		description: "Another project description. Detail the key accomplishments, challenges overcome, and skills developed during this experience.",
-		color: "purple"
-	},
-	{
-		title: "Research Position",
-		date: "Sep 2022 - May 2023",
-		description: "Research or academic position description. Highlight research contributions, publications, or significant findings from this experience.",
-		color: "green"
-	},
-	{
-		title: "Side Project",
-		date: "2022",
-		description: "Personal side project description. Explain the motivation behind the project and what you learned from building it.",
-		color: "orange"
-	},
-	{
-		title: "Internship",
-		date: "Summer 2021",
-		description: "Internship experience description. Share what you learned, the team you worked with, and the impact of your contributions.",
-		color: "pink"
-	}
-];
+import projectsData from '../data/projects.json';
+import experienceData from '../data/experience.json';
 
 const colorClasses = {
 	blue: "border-blue-500",
@@ -47,10 +15,10 @@ const colorClasses = {
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/png" href="/images/coin.png" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Your Name - Personal Website</title>
+		<title>Michael Ward</title>
 	</head>
 	<body class="min-h-screen relative" style="background: repeating-linear-gradient(45deg, #2d5016, #2d5016 10px, #3a6b1e 10px, #3a6b1e 20px);">
 		<div id="score-display" class="fixed top-4 right-4 z-50 retro-score">
@@ -76,19 +44,19 @@ const colorClasses = {
 
 						<!-- Name and Description -->
 						<div class="flex-1">
-							<h1 class="retro-wordart mb-4">Your Name</h1>
+							<h1 class="retro-wordart mb-4">Michael Ward</h1>
 							<div class="space-y-2">
 								<div class="retro-stat-box">
 									<span class="retro-label">School:</span>
-									<span class="retro-value">University Name - Computer Science</span>
+									<span class="retro-value">UCLA - B.S. Computer Science & Engineering and Philosophy</span>
 								</div>
 								<div class="retro-stat-box">
 									<span class="retro-label">Contact:</span>
-									<a href="mailto:your.email@example.com" class="retro-link">your.email@example.com</a>
+									<a href="https://en.wikipedia.org/wiki/Trollface" target="_blank" class="retro-link">michaelward1916@ucla.edu</a>
 								</div>
 								<div class="retro-stat-box">
-									<span class="retro-label">About:</span>
-									<span class="retro-value">A brief description about yourself. Talk about your interests, passions, and what drives you in your field.</span>
+									<span class="retro-label">GitHub:</span>
+									<a href="https://github.com/Mykol-Word" target="_blank" class="retro-link">https://github.com/Mykol-Word</a>
 								</div>
 							</div>
 						</div>
@@ -96,25 +64,99 @@ const colorClasses = {
 				</div>
 			</div>
 
-			<!-- Projects Section -->
-			<div class="retro-panel">
+			<!-- About Section -->
+			<div class="retro-panel mb-8">
 				<div class="retro-title-bar">
-					<span class="retro-title-text">Projects & Experience</span>
+					<span class="retro-title-text">About</span>
+				</div>
+				<div class="retro-content">
+					<div class="retro-quest-item">
+						<p class="retro-quest-text">
+							I'm a third year undergraduate at UCLA studying Computer Science & Engineering and Philosophy. 
+							I’m deeply interested in computer science as a whole but by necessity I've chosen to focus on only a few things, 
+							namely, embedded systems, robotics, machine learning, and hardware–software integration. 
+							In philosophy, I am interested in many areas as well, though my main focus is moral philosophy. <br><br>
+
+							<i>If I had infinite time and resources, I would explore all niches of computer science and philosophy entirely and thoroughly.
+							Since, I don't, I've chosen to emphasize my computer science degree and focus on only a few areas.</i> <br><br>
+
+							My non-academic interests are weight-lifting, climbing, game development/modding, and playing video games. I'm pretty bad at all but the last one.
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Experience Section -->
+			<div class="retro-panel mb-8">
+				<div class="retro-title-bar">
+					<span class="retro-title-text">Experience</span>
 				</div>
 				<div class="retro-content">
 					<div class="space-y-4">
-						{projects.map((project, index) => (
+						{experienceData.map((experience, index) => (
 							<div class="retro-quest-item">
 								<div class="flex justify-between items-start mb-2">
-									<h3 class="retro-quest-title">{project.title}</h3>
-									<span class="retro-date-badge">{project.date}</span>
+									<div>
+										<div class="flex items-center gap-3 flex-wrap">
+											<h3 class="retro-quest-title">{experience.title}</h3>
+											{experience.links && experience.links.length > 0 && (
+												<div class="flex gap-2">
+													{experience.links.map((link) => (
+														<a href={link.url} target="_blank" class="retro-link text-sm">[{link.label}]</a>
+													))}
+												</div>
+											)}
+										</div>
+										<p class="text-sm font-semibold text-yellow-400 mt-1">{experience.employer}</p>
+									</div>
+									<span class="retro-date-badge">{experience.date}</span>
 								</div>
 								<p class="retro-quest-text">
-									{project.description}
+									{experience.description}
 								</p>
 							</div>
 						))}
 					</div>
+				</div>
+			</div>
+
+			<!-- Projects Section -->
+			<div class="retro-panel">
+				<div class="retro-title-bar">
+					<span class="retro-title-text">Projects</span>
+				</div>
+				<div class="retro-content">
+					{projectsData.map((categoryGroup, groupIndex) => (
+						<div class={groupIndex > 0 ? "mt-6" : ""}>
+							<div class="retro-category-box">
+								<div class="retro-category-header">
+									{categoryGroup.category}
+								</div>
+								<div class="space-y-4">
+									{categoryGroup.projects.map((project) => (
+										<div class="retro-quest-item">
+											<div class="flex justify-between items-start mb-2">
+												<div class="flex items-center gap-3 flex-wrap">
+													<h3 class="retro-quest-title">{project.title}</h3>
+													{project.links && project.links.length > 0 && (
+														<div class="flex gap-2">
+															{project.links.map((link) => (
+																<a href={link.url} target="_blank" class="retro-link text-sm">[{link.label}]</a>
+															))}
+														</div>
+													)}
+												</div>
+												<span class="retro-date-badge">{project.date}</span>
+											</div>
+											<p class="retro-quest-text">
+												{project.description}
+											</p>
+										</div>
+									))}
+								</div>
+							</div>
+						</div>
+					))}
 				</div>
 			</div>
 		</div>
@@ -212,7 +254,6 @@ const colorClasses = {
 				filter: drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.4));
 				font-family: 'Impact', 'Arial Black', sans-serif;
 				letter-spacing: 2px;
-				transform: perspective(10px) rotateX(2deg);
 			}
 
 			/* Stat Boxes */
@@ -272,7 +313,7 @@ const colorClasses = {
 			}
 
 			.retro-quest-title {
-				font-size: 1.5rem;
+				font-size: 1.25rem;
 				font-weight: bold;
 				color: #ffd700;
 				text-shadow:
@@ -299,6 +340,31 @@ const colorClasses = {
 				font-family: 'Arial', sans-serif;
 				text-shadow: 1px 1px 0 #000;
 				line-height: 1.6;
+			}
+
+			/* Category Box Styles */
+			.retro-category-box {
+				background: linear-gradient(135deg, #7a6344 0%, #5d4a32 100%);
+				border: 3px ridge #9d8359;
+				padding: 16px;
+				box-shadow:
+					inset 0 1px 3px rgba(0, 0, 0, 0.4),
+					0 2px 4px rgba(0, 0, 0, 0.3);
+			}
+
+			.retro-category-header {
+				background: linear-gradient(180deg, #a58a54 0%, #8b6f47 100%);
+				border: 2px solid #6b5845;
+				padding: 8px 16px;
+				margin: -16px -16px 16px -16px;
+				font-size: 1.25rem;
+				font-weight: bold;
+				color: #ffd700;
+				text-shadow: 2px 2px 0 #000;
+				font-family: 'Arial Black', sans-serif;
+				box-shadow:
+					inset 0 1px 0 #c9a961,
+					0 2px 0 #3d2f1f;
 			}
 
 			/* Minigame Styles */
@@ -399,8 +465,8 @@ const colorClasses = {
 					// Add image element
 					const img = document.createElement('img');
 					img.src = '/images/coin.png';
-					img.style.width = '30px';
-					img.style.height = '30px';
+					img.style.width = '50px';
+					img.style.height = '50px';
 					img.style.display = 'block';
 					coin.appendChild(img);
 
@@ -426,7 +492,7 @@ const colorClasses = {
 					coin.style.top = y + 'px';
 					coin.style.zIndex = '40';
 					coin.style.opacity = '0';
-					coin.style.animation = 'coinAppear 0.5s ease-out forwards';
+					coin.style.animation = 'coinAppear 1.75s ease-out forwards';
 					coin.style.animationDelay = Math.random() * 2 + 's';
 
 					// Click handler

@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Embedded Software Engineering Intern",
+    "employer": "Flight Works, Inc.",
+    "date": "June 2025 – Present",
+    "description": "At Flight Works, I developed space-grade embedded C firmware. I can't say much specifically, but I can say I learned a lot about embedded programming with resource constraints and contributing to a much larger and moving codebase than I'm used to. One such project I worked on was an ASCENT-based Propulsion Unit with Modular Applications (PUMA) which you can read more about from the link above.",
+    "links": [
+      { "label": "PUMA Info", "url": "https://www.flightworksinc.com/flight-works-developing-modular-refuelable-ascentpropulsion-unit-for-afrl/" }
+    ]
+  },
+  {
+    "title": "Micromouse Project-Lead",
+    "employer": "Institute of Electrical and Electronics Engineers (IEEE) at UCLA",
+    "date": "April 2024 – June 2025",
+    "description": "I co-led the Micromouse at UCLA program, mentoring over 80 students in designing and building autonomous maze-solving robots. As part of my work, I created 6 assignments and delivered lectures on motor & encoders, PID controllers, maze-solving algorithms, and IR sensors. I also conducted lots of schematic/PCB design reviews and in-lab worksessions. Overall I had a great experience!"
+  },
+  {
+    "title": "Compiler Research Intern",
+    "employer": "PolyArch Research Group",
+    "date": "January 2025 – Present",
+    "description": "At the PolyArch Research Group, I am contributing to an open-source compiler targeting dataflow, CGRA, and other spatial architectures. I have mainly been working with MLIR, Polygeist, and the Clang/LLVM ecosystem to write passes, make custom dialect operations, and create testbenches to measure successful compilation."
+  }
+]
