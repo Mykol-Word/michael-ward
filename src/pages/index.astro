@@ -28,6 +28,30 @@ const colorClasses = {
 			Gold: <span id="score">0</span>
 		</div>
 
+		<div id="shop-display" class="fixed top-24 right-4 z-50 retro-shop">
+			<div class="shop-item" id="purple-item">
+				<button id="purple-btn" class="shop-button" data-cost="15" title="Purple is my favorite color!">
+					<span class="shop-name">Purple BG</span>
+					<span class="shop-cost">15 Gold</span>
+				</button>
+				<button id="purple-toggle" class="toggle-button" style="display: none;" title="Toggle purple background">Toggle</button>
+			</div>
+			<div class="shop-item" id="evil-item">
+				<button id="evil-btn" class="shop-button" data-cost="40" title="Turn the site evil - inverted colors, dark theme">
+					<span class="shop-name">Evil Mode</span>
+					<span class="shop-cost">40 Gold</span>
+				</button>
+				<button id="evil-toggle" class="toggle-button" style="display: none;" title="Toggle evil mode">Toggle</button>
+			</div>
+			<div class="shop-item" id="newcoin-item">
+				<button id="newcoin-btn" class="shop-button" data-cost="50" title="Replace coin with a new image">
+					<span class="shop-name">New Coin</span>
+					<span class="shop-cost">50 Gold</span>
+				</button>
+				<button id="newcoin-toggle" class="toggle-button" style="display: none;" title="Toggle new coin">Toggle</button>
+			</div>
+		</div>
+
 		<div class="responsive-container mx-auto px-4 sm:px-6 py-6 sm:py-12 relative z-10">
 			<!-- Profile Section -->
 			<div class="retro-panel mb-8">
@@ -446,6 +470,91 @@ const colorClasses = {
 					0 4px 8px rgba(0, 0, 0, 0.6);
 			}
 
+			.retro-shop {
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+			}
+
+			.shop-item {
+				display: flex;
+				gap: 4px;
+			}
+
+			.shop-button {
+				background: linear-gradient(135deg, #c9a961 0%, #a58a54 100%);
+				border: 3px outset #d4af6a;
+				padding: 8px 12px;
+				font-size: 0.9rem;
+				font-weight: bold;
+				color: #ffd700;
+				text-shadow: 1px 1px 0 #000;
+				font-family: 'Arial Black', sans-serif;
+				box-shadow: 0 3px 0 #5c4a2f, 0 3px 6px rgba(0, 0, 0, 0.6);
+				cursor: pointer;
+				transition: all 0.1s;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 4px;
+			}
+
+			.shop-button:hover {
+				background: linear-gradient(135deg, #d4af6a 0%, #b59a64 100%);
+			}
+
+			.shop-button:active {
+				transform: translateY(2px);
+				box-shadow: 0 1px 0 #5c4a2f, 0 1px 3px rgba(0, 0, 0, 0.6);
+			}
+
+			.shop-button:disabled {
+				opacity: 0.5;
+				cursor: not-allowed;
+			}
+
+			.shop-button.purchased {
+				background: linear-gradient(135deg, #6b8e23 0%, #556b2f 100%);
+				border-color: #8fbc8f;
+			}
+
+			.shop-name {
+				font-size: 0.85rem;
+			}
+
+			.shop-cost {
+				font-size: 0.75rem;
+				color: #ffed4e;
+			}
+
+			.toggle-button {
+				background: linear-gradient(135deg, #4169e1 0%, #1e3a8a 100%);
+				border: 3px outset #6495ed;
+				padding: 8px 12px;
+				font-size: 0.8rem;
+				font-weight: bold;
+				color: white;
+				text-shadow: 1px 1px 0 #000;
+				font-family: 'Arial Black', sans-serif;
+				box-shadow: 0 3px 0 #0f1f47, 0 3px 6px rgba(0, 0, 0, 0.6);
+				cursor: pointer;
+				transition: all 0.1s;
+			}
+
+			.toggle-button:hover {
+				background: linear-gradient(135deg, #5a7fef 0%, #2e4a9a 100%);
+			}
+
+			.toggle-button:active {
+				transform: translateY(2px);
+				box-shadow: 0 1px 0 #0f1f47, 0 1px 3px rgba(0, 0, 0, 0.6);
+			}
+
+			.toggle-button.active {
+				background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+				border-color: #4ade80;
+			}
+
 			.game-coin {
 				width: 30px;
 				height: 30px;
@@ -695,6 +804,10 @@ const colorClasses = {
 					display: none;
 				}
 
+				.retro-shop {
+					display: none;
+				}
+
 				.retro-content {
 					padding: 10px;
 				}
@@ -751,12 +864,247 @@ const colorClasses = {
 					return;
 				}
 
-				let score = 0;
+				// Load saved data
+				let score = parseInt(localStorage.getItem('coinScore') || '0');
+				let purchases = JSON.parse(localStorage.getItem('purchases') || '{}');
+				let toggleStates = JSON.parse(localStorage.getItem('toggleStates') || '{}');
+
 				const scoreDisplay = document.getElementById('score');
 
 				if (!scoreDisplay) {
 					console.error('Score display not found');
 					return;
+				}
+
+				// Initialize display
+				scoreDisplay.textContent = score;
+
+				// Shop elements
+				const purpleBtn = document.getElementById('purple-btn');
+				const purpleToggle = document.getElementById('purple-toggle');
+				const evilBtn = document.getElementById('evil-btn');
+				const evilToggle = document.getElementById('evil-toggle');
+				const newCoinBtn = document.getElementById('newcoin-btn');
+				const newCoinToggle = document.getElementById('newcoin-toggle');
+
+				// Update score display
+				function updateScore(newScore) {
+					score = newScore;
+					scoreDisplay.textContent = score;
+					localStorage.setItem('coinScore', score.toString());
+					updateShopButtons();
+				}
+
+				// Update shop button states
+				function updateShopButtons() {
+					// Purple background
+					if (purchases.purple) {
+						purpleBtn.textContent = 'Purchased';
+						purpleBtn.classList.add('purchased');
+						purpleBtn.disabled = true;
+						purpleToggle.style.display = 'block';
+					} else {
+						purpleBtn.disabled = score < 15;
+					}
+
+					// Evil mode
+					if (purchases.evil) {
+						evilBtn.textContent = 'Purchased';
+						evilBtn.classList.add('purchased');
+						evilBtn.disabled = true;
+						evilToggle.style.display = 'block';
+					} else {
+						evilBtn.disabled = score < 40;
+					}
+
+					// New coin
+					if (purchases.newCoin) {
+						newCoinBtn.textContent = 'Purchased';
+						newCoinBtn.classList.add('purchased');
+						newCoinBtn.disabled = true;
+						newCoinToggle.style.display = 'block';
+					} else {
+						newCoinBtn.disabled = score < 50;
+					}
+				}
+
+				// Apply purple background
+				function applyPurple(enabled) {
+					const body = document.body;
+					if (enabled) {
+						body.style.background = 'repeating-linear-gradient(45deg, #4a1d4a, #4a1d4a 10px, #6b2d6b 10px, #6b2d6b 20px)';
+						purpleToggle.classList.add('active');
+					} else {
+						body.style.background = 'repeating-linear-gradient(45deg, #2d5016, #2d5016 10px, #3a6b1e 10px, #3a6b1e 20px)';
+						purpleToggle.classList.remove('active');
+					}
+				}
+
+				// Apply evil mode
+				function applyEvil(enabled) {
+					const pfp = document.querySelector('.retro-avatar-inner img');
+					const body = document.body;
+					const panels = document.querySelectorAll('.retro-panel, .retro-category-box, .retro-score, .retro-shop');
+					const yellowTexts = document.querySelectorAll('.retro-title-text, .retro-quest-title, .retro-category-header, #score, .shop-button');
+					const brownElements = document.querySelectorAll('.retro-panel, .retro-category-box, .retro-category-header, .retro-score, .shop-button');
+					const nameElement = document.querySelector('.retro-wordart');
+
+					if (enabled) {
+						if (pfp) {
+							pfp.style.transform = 'rotate(180deg) scaleX(-1)';
+							pfp.style.filter = 'invert(1)';
+						}
+						body.style.background = 'repeating-linear-gradient(45deg, #2d0a0a, #2d0a0a 10px, #4a1515 10px, #4a1515 20px)';
+
+						// Change name to evil version
+						if (nameElement) {
+							nameElement.textContent = 'Wichael Mard';
+						}
+
+						// Change yellow to red
+						yellowTexts.forEach(el => {
+							el.style.color = '#ff4444';
+						});
+
+						// Change brown backgrounds to orange
+						brownElements.forEach(el => {
+							if (el.classList.contains('retro-panel') || el.classList.contains('retro-category-box')) {
+								el.style.background = 'linear-gradient(135deg, #d4691e 0%, #b35a1a 100%)';
+							} else if (el.classList.contains('retro-category-header')) {
+								el.style.background = 'linear-gradient(180deg, #d4691e 0%, #b35a1a 100%)';
+							} else if (el.classList.contains('retro-score') || el.classList.contains('shop-button')) {
+								el.style.background = 'linear-gradient(135deg, #d4691e 0%, #b35a1a 100%)';
+							}
+						});
+
+						evilToggle.classList.add('active');
+					} else {
+						if (pfp) {
+							pfp.style.transform = '';
+							pfp.style.filter = '';
+						}
+
+						// Reset name
+						if (nameElement) {
+							nameElement.textContent = 'Michael Ward';
+						}
+
+						// Reset colors
+						yellowTexts.forEach(el => {
+							el.style.color = '';
+						});
+						brownElements.forEach(el => {
+							el.style.background = '';
+						});
+
+						// Apply purple if it's enabled
+						if (toggleStates.purple) {
+							applyPurple(true);
+						} else {
+							body.style.background = 'repeating-linear-gradient(45deg, #2d5016, #2d5016 10px, #3a6b1e 10px, #3a6b1e 20px)';
+						}
+
+						evilToggle.classList.remove('active');
+					}
+				}
+
+				// Purchase handlers
+				purpleBtn.addEventListener('click', () => {
+					if (score >= 15 && !purchases.purple) {
+						updateScore(score - 15);
+						purchases.purple = true;
+						localStorage.setItem('purchases', JSON.stringify(purchases));
+						toggleStates.purple = true;
+						localStorage.setItem('toggleStates', JSON.stringify(toggleStates));
+						updateShopButtons();
+
+						// Only apply if evil mode is not active
+						if (!toggleStates.evil) {
+							applyPurple(true);
+						}
+					}
+				});
+
+				evilBtn.addEventListener('click', () => {
+					if (score >= 40 && !purchases.evil) {
+						updateScore(score - 40);
+						purchases.evil = true;
+						localStorage.setItem('purchases', JSON.stringify(purchases));
+						toggleStates.evil = true;
+						localStorage.setItem('toggleStates', JSON.stringify(toggleStates));
+						updateShopButtons();
+
+						// Evil always applies (overrides purple)
+						applyEvil(true);
+					}
+				});
+
+				newCoinBtn.addEventListener('click', () => {
+					if (score >= 50 && !purchases.newCoin) {
+						updateScore(score - 50);
+						purchases.newCoin = true;
+						localStorage.setItem('purchases', JSON.stringify(purchases));
+						toggleStates.newCoin = true;
+						localStorage.setItem('toggleStates', JSON.stringify(toggleStates));
+						updateShopButtons();
+
+						// Update toggle state
+						if (toggleStates.newCoin) {
+							newCoinToggle.classList.add('active');
+						}
+					}
+				});
+
+				// Toggle handlers
+				purpleToggle.addEventListener('click', () => {
+					toggleStates.purple = !toggleStates.purple;
+					localStorage.setItem('toggleStates', JSON.stringify(toggleStates));
+
+					// Evil mode takes precedence - only apply purple if evil is off
+					if (!toggleStates.evil) {
+						applyPurple(toggleStates.purple);
+					}
+					// Update toggle button state even when evil is active
+					if (toggleStates.purple) {
+						purpleToggle.classList.add('active');
+					} else {
+						purpleToggle.classList.remove('active');
+					}
+				});
+
+				evilToggle.addEventListener('click', () => {
+					toggleStates.evil = !toggleStates.evil;
+					localStorage.setItem('toggleStates', JSON.stringify(toggleStates));
+
+					// Evil mode overrides purple
+					applyEvil(toggleStates.evil);
+				});
+
+				newCoinToggle.addEventListener('click', () => {
+					toggleStates.newCoin = !toggleStates.newCoin;
+					localStorage.setItem('toggleStates', JSON.stringify(toggleStates));
+
+					// Update toggle button state
+					if (toggleStates.newCoin) {
+						newCoinToggle.classList.add('active');
+					} else {
+						newCoinToggle.classList.remove('active');
+					}
+				});
+
+				// Initialize shop and apply saved states
+				updateShopButtons();
+
+				// Apply modes - evil takes precedence
+				if (toggleStates.evil) {
+					applyEvil(true);
+				} else if (toggleStates.purple) {
+					applyPurple(true);
+				}
+
+				// Apply new coin toggle state
+				if (toggleStates.newCoin) {
+					newCoinToggle.classList.add('active');
 				}
 
 				function createCoin() {
@@ -766,7 +1114,10 @@ const colorClasses = {
 					// Add image element
 					const img = document.createElement('img');
 					const baseUrl = window.BASE_URL.endsWith('/') ? window.BASE_URL : window.BASE_URL + '/';
-					img.src = baseUrl + 'images/coin.png';
+
+					// Use troll.png if newCoin is toggled, otherwise use coin.png
+					const coinImage = toggleStates.newCoin ? 'troll.png' : 'coin.png';
+					img.src = baseUrl + 'images/' + coinImage;
 					img.style.width = '50px';
 					img.style.height = '50px';
 					img.style.display = 'block';
@@ -797,10 +1148,9 @@ const colorClasses = {
 					coin.style.animation = 'coinAppear 1.75s ease-out forwards';
 					coin.style.animationDelay = Math.random() * 2 + 's';
 
-					// Click handler
-					coin.addEventListener('click', () => {
-						score++;
-						scoreDisplay.textContent = score;
+					// Mouseover handler
+					coin.addEventListener('mouseover', () => {
+						updateScore(score + 1);
 
 						// Collect animation
 						coin.style.animation = 'collect 0.5s ease-out forwards';
@@ -821,7 +1171,7 @@ const colorClasses = {
 				}
 
 				// Spawn coins periodically
-				setInterval(createCoin, 2000);
+				setInterval(createCoin, 750);
 
 				// Initial coins
 				setTimeout(createCoin, 500);
