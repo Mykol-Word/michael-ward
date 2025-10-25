@@ -132,30 +132,33 @@ const colorClasses = {
 					{projectsData.map((categoryGroup, groupIndex) => (
 						<div class={groupIndex > 0 ? "mt-6" : ""}>
 							<div class="retro-category-box">
-								<div class="retro-category-header">
+								<div class="retro-category-header collapsible-header expanded" data-category={categoryGroup.category}>
+									<span class="category-chevron">▶</span>
 									{categoryGroup.category}
 								</div>
-								<div class="space-y-4">
-									{categoryGroup.projects.map((project) => (
-										<div class="retro-quest-item">
-											<div class="flex justify-between items-start mb-2">
-												<div class="flex items-center gap-3 flex-wrap">
-													<h3 class="retro-quest-title">{project.title}</h3>
-													{project.links && project.links.length > 0 && (
-														<div class="flex gap-2">
-															{project.links.map((link) => (
-																<a href={link.url} target="_blank" class="retro-link text-sm">[{link.label}]</a>
-															))}
-														</div>
-													)}
+								<div class="category-content expanded">
+									<div class="space-y-4">
+										{categoryGroup.projects.map((project) => (
+											<div class="retro-quest-item">
+												<div class="flex justify-between items-start mb-2">
+													<div class="flex items-center gap-3 flex-wrap">
+														<h3 class="retro-quest-title">{project.title}</h3>
+														{project.links && project.links.length > 0 && (
+															<div class="flex gap-2">
+																{project.links.map((link) => (
+																	<a href={link.url} target="_blank" class="retro-link text-sm">[{link.label}]</a>
+																))}
+															</div>
+														)}
+													</div>
+													<span class="retro-date-badge">{project.date}</span>
 												</div>
-												<span class="retro-date-badge">{project.date}</span>
+												<p class="retro-quest-text">
+													{project.description}
+												</p>
 											</div>
-											<p class="retro-quest-text">
-												{project.description}
-											</p>
-										</div>
-									))}
+										))}
+									</div>
 								</div>
 							</div>
 						</div>
@@ -383,6 +386,49 @@ const colorClasses = {
 				box-shadow:
 					inset 0 1px 0 #c9a961,
 					0 2px 0 #3d2f1f;
+			}
+
+			.collapsible-header {
+				cursor: pointer;
+				user-select: none;
+				transition: background 0.2s;
+				margin: -16px -16px 0 -16px !important;
+			}
+
+			.collapsible-header.expanded {
+				margin: -16px -16px 16px -16px !important;
+			}
+
+			.collapsible-header:hover {
+				background: linear-gradient(180deg, #b59a64 0%, #9b7f57 100%);
+			}
+
+			.collapsible-header:active {
+				background: linear-gradient(180deg, #8b6f47 0%, #7a6344 100%);
+			}
+
+			.category-chevron {
+				display: inline-block;
+				margin-right: 8px;
+				transition: transform 0.3s ease;
+				font-size: 0.9rem;
+			}
+
+			.collapsible-header.expanded .category-chevron {
+				transform: rotate(90deg);
+			}
+
+			.category-content {
+				overflow: hidden;
+				transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+				max-height: 0;
+				opacity: 0;
+			}
+
+			.category-content.expanded {
+				max-height: 5000px;
+				opacity: 1;
+				margin-top: 16px;
 			}
 
 			/* Minigame Styles */
@@ -679,8 +725,27 @@ const colorClasses = {
 		</style>
 
 		<script is:inline>
-			// Minigame Script
+			// Category Collapsible Toggle
 			document.addEventListener('DOMContentLoaded', () => {
+				// Setup collapsible categories
+				const categoryHeaders = document.querySelectorAll('.collapsible-header');
+
+				categoryHeaders.forEach(header => {
+					header.addEventListener('click', () => {
+						const content = header.nextElementSibling;
+						const isExpanded = header.classList.contains('expanded');
+
+						if (isExpanded) {
+							header.classList.remove('expanded');
+							content.classList.remove('expanded');
+						} else {
+							header.classList.add('expanded');
+							content.classList.add('expanded');
+						}
+					});
+				});
+
+				// Minigame Script
 				// Disable minigame on mobile
 				if (window.innerWidth <= 640) {
 					return;
