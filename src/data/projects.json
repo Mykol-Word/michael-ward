@@ -40,8 +40,38 @@
           { "label": "GitHub", "url": "https://github.com/Mykol-Word/worm-escape-game"},
           { "label": "Play 'Worm Escape'", "url": "https://mykol-word.github.io/worm-escape-game/"}
         ]
+      },
+            {
+        "title": "Personal Website",
+        "date": "October 2025",
+        "description": "I built this retro-styled personal website site using Astro as the framework. I tried to capture the aesthetic of old-2010s UI (think Windows 7 era). I almost exclusively used Claude Code to build the site, only writing a few lines of code when it was easier/faster than prompting. This project was a way for me to test the waters of Claude Code's capabilities, and so far I am impressed (I also hate making websites).",
+        "links" : [
+          { "label": "GitHub", "url": "https://github.com/Mykol-Word/michael-ward"},
+          { "label": "Self Reference?", "url": "https://mykol-word.github.io/michael-ward/"}
+        ]
       }
-      
+    ]
+  },
+  {
+    "category": "Game Development",
+    "projects": [
+      {
+        "title": "Runner Boy",
+        "date": "January 2025",
+        "description": "'Runner Boy' is an endless runner game I developed in s&box, Facepunch’s Source 2–based game engine, using C#. The game itself features dynamic obstacle spawning, score tracking, and difficulty scaling. s&box was a rather new game engine, so with limited documentation, I had to figure a lot of things out through experimentation and the community. Even though the learning curve was really-steep, I still had a great time learning to use a new environment!",
+        "links" : [
+          { "label": "GitHub", "url": "https://github.com/Mykol-Word/runner-boy"}
+        ]
+      },
+      {
+        "title": "'MoreHats' Mod",
+        "date": "August 2025",
+        "description": "This is a mod for 'Last Train Outta Wormtown' that adds custom hats to the game. For such a simple concept, it took a suprising amount of work and software to get the job done. I had to import/create models in Blender, import them into Unity to create and package GameObjects that match the structure of the in-game hat objects, then use a C# DLL decompiler to understand the existing game hat-framework, and finally integrate them into the game using BepInEx to inject my code and assets.",
+        "links" : [
+          { "label": "GitHub", "url": "https://github.com/Mykol-Word/MoreHats"},
+          { "label": "Mod Page", "url": "https://thunderstore.io/c/last-train-outta-wormtown/p/Mykol_Word/MoreHats/"}
+        ]
+      }
     ]
   }
 ]
