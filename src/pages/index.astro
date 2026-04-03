@@ -22,31 +22,51 @@ const colorClasses = {
 		<script is:inline define:vars={{ basePath: import.meta.env.BASE_URL }}>
 			window.BASE_URL = basePath;
 		</script>
+		<script is:inline>
+			(async function() {
+				const exts = ['png', 'jpg', 'jpeg', 'webp', 'gif', 'avif'];
+				const base = (window.BASE_URL || '').replace(/\/$/, '');
+				for (const ext of exts) {
+					const url = `${base}/images/background.${ext}`;
+					const found = await new Promise(res => {
+						const img = new Image();
+						img.onload = () => res(true);
+						img.onerror = () => res(false);
+						img.src = url;
+					});
+					if (found) {
+						document.body.style.backgroundImage = `url('${url}')`;
+						break;
+					}
+				}
+			})();
+		</script>
 	</head>
-	<body class="min-h-screen relative" style="background: repeating-linear-gradient(45deg, #2d5016, #2d5016 10px, #3a6b1e 10px, #3a6b1e 20px);">
+	<body class="min-h-screen relative" style="background-size: cover; background-position: center; background-attachment: fixed;">
+		<div id="bg-tint" style="position: fixed; inset: 0; z-index: 0; pointer-events: none; background: rgba(30, 110, 200, 0.38); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);"></div>
 		<div id="score-display" class="fixed top-4 right-4 z-50 retro-score">
-			Gold: <span id="score">0</span>
+			Coins: <span id="score">0</span>
 		</div>
 
 		<div id="shop-display" class="fixed top-24 right-4 z-50 retro-shop">
 			<div class="shop-item" id="purple-item">
 				<button id="purple-btn" class="shop-button" data-cost="15" title="Purple is my favorite color!">
 					<span class="shop-name">Purple BG</span>
-					<span class="shop-cost">15 Gold</span>
+					<span class="shop-cost">15 Coins</span>
 				</button>
 				<button id="purple-toggle" class="toggle-button" style="display: none;" title="Toggle purple background">Toggle</button>
 			</div>
 			<div class="shop-item" id="evil-item">
 				<button id="evil-btn" class="shop-button" data-cost="40" title="Turn the site evil - inverted colors, dark theme">
 					<span class="shop-name">Evil Mode</span>
-					<span class="shop-cost">40 Gold</span>
+					<span class="shop-cost">40 Coins</span>
 				</button>
 				<button id="evil-toggle" class="toggle-button" style="display: none;" title="Toggle evil mode">Toggle</button>
 			</div>
 			<div class="shop-item" id="newcoin-item">
 				<button id="newcoin-btn" class="shop-button" data-cost="50" title="Replace coin with a new image">
 					<span class="shop-name">New Coin</span>
-					<span class="shop-cost">50 Gold</span>
+					<span class="shop-cost">50 Coins</span>
 				</button>
 				<button id="newcoin-toggle" class="toggle-button" style="display: none;" title="Toggle new coin">Toggle</button>
 			</div>
@@ -190,60 +210,88 @@ const colorClasses = {
 		</div>
 
 		<style>
-			/* RuneScape/Retro Panel Styles */
+			/* ============================================
+			   FRUTIGER AERO - True Glassmorphism Styles
+			   ============================================ */
+
+			* { font-family: 'Segoe UI', Trebuchet MS, Arial, sans-serif; }
+
+			/* Shared glass mixin values via layered box-shadow + backdrop */
 			.retro-panel {
-				background: linear-gradient(135deg, #c9a961 0%, #a58a54 100%);
-				border: 4px outset #d4af6a;
+				background: rgba(255, 255, 255, 0.14);
+				backdrop-filter: blur(22px) saturate(180%);
+				-webkit-backdrop-filter: blur(22px) saturate(180%);
+				border: 1px solid rgba(255, 255, 255, 0.55);
+				border-bottom-color: rgba(255, 255, 255, 0.2);
+				border-right-color: rgba(255, 255, 255, 0.2);
+				border-radius: 16px;
 				box-shadow:
-					0 8px 0 #5c4a2f,
-					0 8px 16px rgba(0, 0, 0, 0.6),
-					inset 0 2px 0 #e6d4a8;
+					0 2px 0 rgba(255, 255, 255, 0.6) inset,        /* top gloss edge */
+					0 -1px 0 rgba(0, 0, 0, 0.08) inset,            /* bottom inner shadow */
+					0 12px 40px rgba(10, 60, 160, 0.2),             /* outer glow */
+					0 2px 8px rgba(0, 0, 0, 0.08);
 			}
 
+			/* Title bar */
 			.retro-title-bar {
-				background: linear-gradient(180deg, #8b6f47 0%, #5c4a2f 100%);
-				border: 2px solid #3d2f1f;
-				border-bottom: 3px solid #2a1f14;
+				background: linear-gradient(180deg,
+					rgba(180, 230, 255, 0.75) 0%,
+					rgba(70, 160, 245, 0.65) 48%,
+					rgba(30, 110, 210, 0.72) 49%,
+					rgba(20, 90, 190, 0.68) 100%);
+				backdrop-filter: blur(12px) saturate(160%);
+				-webkit-backdrop-filter: blur(12px) saturate(160%);
+				border: none;
+				border-bottom: 1px solid rgba(10, 60, 160, 0.25);
+				border-radius: 15px 15px 0 0;
 				padding: 8px 16px;
-				margin: -4px -4px 0 -4px;
-				box-shadow: inset 0 1px 0 #9d8359;
+				margin: 0;
+				position: relative;
+				overflow: hidden;
+			}
+
+			/* Gloss sheen — top half bright, bottom half subtle */
+			.retro-title-bar::before {
+				content: '';
+				position: absolute;
+				top: 0; left: 0; right: 0;
+				height: 52%;
+				background: linear-gradient(180deg,
+					rgba(255, 255, 255, 0.65) 0%,
+					rgba(255, 255, 255, 0.18) 100%);
+				border-radius: 15px 15px 0 0;
+				pointer-events: none;
 			}
 
 			.retro-title-text {
 				font-size: 1.5rem;
-				font-weight: bold;
-				color: #ffd700;
+				font-weight: 700;
+				color: #fff;
 				text-shadow:
-					2px 2px 0 #8b4513,
-					-1px -1px 0 #000,
-					1px -1px 0 #000,
-					-1px 1px 0 #000,
-					1px 1px 0 #000;
-				font-family: 'Arial Black', sans-serif;
-				letter-spacing: 1px;
+					0 1px 0 rgba(255, 255, 255, 0.4),
+					0 2px 6px rgba(0, 60, 160, 0.7),
+					0 0 20px rgba(80, 180, 255, 0.5);
+				letter-spacing: 0.5px;
+				position: relative;
+				z-index: 1;
 			}
 
 			.retro-content {
 				padding: 20px;
-				background: repeating-linear-gradient(
-					0deg,
-					rgba(255, 255, 255, 0.03) 0px,
-					rgba(255, 255, 255, 0.03) 1px,
-					transparent 1px,
-					transparent 2px
-				);
 			}
 
 			/* Profile Avatar */
 			.retro-avatar {
 				width: 140px;
 				height: 140px;
-				border: 5px ridge #8b6f47;
-				background: linear-gradient(135deg, #654321 0%, #3d2817 100%);
+				border-radius: 14px;
+				border: 1px solid rgba(255, 255, 255, 0.7);
+				border-bottom-color: rgba(255, 255, 255, 0.2);
 				box-shadow:
-					0 6px 0 #3d2f1f,
-					0 6px 12px rgba(0, 0, 0, 0.8),
-					inset 0 -3px 8px rgba(0, 0, 0, 0.5);
+					0 2px 0 rgba(255, 255, 255, 0.7) inset,
+					0 10px 30px rgba(10, 60, 180, 0.28),
+					0 2px 6px rgba(0, 0, 0, 0.1);
+				overflow: hidden;
 			}
 
 			.retro-avatar-inner {
@@ -252,14 +300,10 @@ const colorClasses = {
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffd700 100%);
+				background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 50%, #1e88e5 100%);
 				font-size: 3rem;
 				font-weight: 900;
 				color: white;
-				text-shadow:
-					3px 3px 0 rgba(0, 0, 0, 0.5),
-					-1px -1px 0 rgba(0, 0, 0, 0.3);
-				font-family: 'Impact', sans-serif;
 				overflow: hidden;
 			}
 
@@ -270,144 +314,184 @@ const colorClasses = {
 				object-position: center;
 			}
 
-			/* WordArt-style Name */
+			/* Name */
 			.retro-wordart {
 				font-size: 2.5rem;
-				font-weight: 900;
-				background: linear-gradient(45deg,
-					#ff0000 0%,
-					#ff7f00 14%,
-					#ffff00 28%,
-					#00ff00 42%,
-					#0000ff 57%,
-					#4b0082 71%,
-					#9400d3 85%,
-					#ff0000 100%
-				);
-				-webkit-background-clip: text;
-				background-clip: text;
-				-webkit-text-fill-color: transparent;
-				filter: drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.4));
-				font-family: 'Impact', 'Arial Black', sans-serif;
-				letter-spacing: 2px;
+				font-weight: 800;
+				color: #ffffff;
+				text-shadow:
+					0 1px 0 rgba(255, 255, 255, 0.5),
+					0 2px 8px rgba(0, 80, 180, 0.5),
+					0 0 24px rgba(120, 200, 255, 0.4);
+				letter-spacing: 1px;
 			}
 
 			/* Stat Boxes */
 			.retro-stat-box {
-				background: linear-gradient(135deg, #8b7355 0%, #6b5845 100%);
-				border: 3px groove #a58a54;
+				background: rgba(255, 255, 255, 0.2);
+				backdrop-filter: blur(14px) saturate(160%);
+				-webkit-backdrop-filter: blur(14px) saturate(160%);
+				border: 1px solid rgba(255, 255, 255, 0.55);
+				border-bottom-color: rgba(255, 255, 255, 0.15);
+				border-radius: 9px;
 				padding: 8px 12px;
 				box-shadow:
-					inset 0 2px 4px rgba(0, 0, 0, 0.3),
-					0 2px 0 rgba(255, 255, 255, 0.1);
+					0 2px 0 rgba(255, 255, 255, 0.6) inset,
+					0 2px 8px rgba(10, 60, 180, 0.1);
 			}
 
 			.retro-label {
-				font-weight: bold;
-				color: #ffd700;
-				text-shadow: 1px 1px 0 #000;
-				font-family: 'Arial', sans-serif;
+				font-weight: 700;
+				color: #0d47a1;
 			}
 
 			.retro-value {
-				color: #ffffff;
-				text-shadow: 1px 1px 0 #000;
-				font-family: 'Arial', sans-serif;
+				color: #0d2e52;
 			}
 
 			.retro-link {
-				color: #00ffff;
-				text-shadow: 1px 1px 0 #000;
+				color: #0277bd;
 				text-decoration: underline;
-				font-family: 'Arial', sans-serif;
 				transition: color 0.2s;
 			}
 
 			.retro-link:hover {
-				color: #ff00ff;
-				text-decoration: underline wavy;
+				color: #0056a8;
 			}
 
-			/* Quest Items */
+			/* Cards */
 			.retro-quest-item {
-				background: linear-gradient(135deg, #8b7355 0%, #6b5845 100%);
-				border: 4px ridge #a58a54;
+				background: rgba(255, 255, 255, 0.55);
+				backdrop-filter: blur(18px) saturate(170%);
+				-webkit-backdrop-filter: blur(18px) saturate(170%);
+				border: 1px solid rgba(255, 255, 255, 0.55);
+				border-bottom-color: rgba(255, 255, 255, 0.15);
+				border-radius: 12px;
 				padding: 12px 16px;
+				position: relative;
+				overflow: hidden;
 				box-shadow:
-					0 4px 0 #3d2f1f,
-					0 4px 8px rgba(0, 0, 0, 0.6),
-					inset 0 1px 0 #9d8359;
+					0 2px 0 rgba(255, 255, 255, 0.65) inset,
+					0 6px 20px rgba(10, 60, 180, 0.14),
+					0 1px 4px rgba(0, 0, 0, 0.07);
 				transition: transform 0.2s, box-shadow 0.2s;
+			}
+
+			/* Gloss on cards */
+			.retro-quest-item::before {
+				content: '';
+				position: absolute;
+				top: 0; left: 0; right: 0;
+				height: 42%;
+				background: linear-gradient(180deg,
+					rgba(255, 255, 255, 0.35) 0%,
+					rgba(255, 255, 255, 0.0) 100%);
+				border-radius: 12px 12px 0 0;
+				pointer-events: none;
 			}
 
 			.retro-quest-item:hover {
 				transform: translateY(-2px);
 				box-shadow:
-					0 6px 0 #3d2f1f,
-					0 6px 12px rgba(0, 0, 0, 0.7),
-					inset 0 1px 0 #9d8359;
+					0 2px 0 rgba(255, 255, 255, 0.65) inset,
+					0 12px 32px rgba(10, 60, 180, 0.22),
+					0 2px 6px rgba(0, 0, 0, 0.1);
 			}
 
 			.retro-quest-title {
 				font-size: 1.25rem;
-				font-weight: bold;
-				color: #ffd700;
-				text-shadow:
-					2px 2px 0 #000,
-					-1px -1px 0 #000;
-				font-family: 'Arial Black', sans-serif;
+				font-weight: 700;
+				color: #0d47a1;
 			}
 
+			/* Date badge — glassy pill with gloss */
 			.retro-date-badge {
-				background: linear-gradient(180deg, #ff6b35 0%, #c7522a 100%);
+				background: linear-gradient(180deg,
+					rgba(160, 215, 255, 0.82) 0%,
+					rgba(50, 140, 230, 0.78) 49%,
+					rgba(25, 100, 205, 0.80) 50%,
+					rgba(15, 80, 185, 0.76) 100%);
+				backdrop-filter: blur(10px) saturate(150%);
+				-webkit-backdrop-filter: blur(10px) saturate(150%);
 				color: white;
-				padding: 6px 12px;
-				border: 3px outset #ff8c61;
-				font-weight: bold;
-				font-family: 'Arial', sans-serif;
-				text-shadow: 1px 1px 0 #000;
+				padding: 5px 14px;
+				border-radius: 20px;
+				border: 1px solid rgba(255, 255, 255, 0.55);
+				font-weight: 600;
+				text-shadow: 0 1px 3px rgba(0, 40, 130, 0.6);
 				box-shadow:
-					0 3px 0 #8b3a1f,
-					0 3px 6px rgba(0, 0, 0, 0.5);
+					0 2px 0 rgba(255, 255, 255, 0.5) inset,
+					0 3px 12px rgba(10, 60, 180, 0.28);
+				position: relative;
+				overflow: hidden;
+			}
+
+			.retro-date-badge::before {
+				content: '';
+				position: absolute;
+				top: 0; left: 0; right: 0;
+				height: 50%;
+				background: linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.0) 100%);
+				border-radius: 20px 20px 0 0;
+				pointer-events: none;
 			}
 
 			.retro-quest-text {
-				color: #f0e6d2;
-				font-family: 'Arial', sans-serif;
-				text-shadow: 1px 1px 0 #000;
+				color: #0d2e52;
 				line-height: 1.6;
 			}
 
 			.retro-employer-text {
 				font-size: 0.875rem;
 				font-weight: 600;
-				color: rgb(250, 204, 21); /* text-yellow-400 */
+				color: #1565c0;
 				margin-top: 0.25rem;
 			}
 
-			/* Category Box Styles */
+			/* Category box */
 			.retro-category-box {
-				background: linear-gradient(135deg, #7a6344 0%, #5d4a32 100%);
-				border: 3px ridge #9d8359;
+				background: rgba(255, 255, 255, 0.1);
+				backdrop-filter: blur(20px) saturate(160%);
+				-webkit-backdrop-filter: blur(20px) saturate(160%);
+				border: 1px solid rgba(255, 255, 255, 0.45);
+				border-radius: 13px;
 				padding: 16px;
 				box-shadow:
-					inset 0 1px 3px rgba(0, 0, 0, 0.4),
-					0 2px 4px rgba(0, 0, 0, 0.3);
+					0 2px 0 rgba(255, 255, 255, 0.5) inset,
+					0 4px 16px rgba(10, 60, 180, 0.12);
 			}
 
+			/* Category header — same gloss split as title bar */
 			.retro-category-header {
-				background: linear-gradient(180deg, #a58a54 0%, #8b6f47 100%);
-				border: 2px solid #6b5845;
+				background: linear-gradient(180deg,
+					rgba(160, 220, 255, 0.72) 0%,
+					rgba(60, 155, 240, 0.62) 48%,
+					rgba(25, 105, 215, 0.68) 49%,
+					rgba(15, 85, 195, 0.65) 100%);
+				backdrop-filter: blur(12px) saturate(150%);
+				-webkit-backdrop-filter: blur(12px) saturate(150%);
+				border: none;
+				border-radius: 11px 11px 0 0;
 				padding: 8px 16px;
 				margin: -16px -16px 16px -16px;
 				font-size: 1.25rem;
-				font-weight: bold;
-				color: #ffd700;
-				text-shadow: 2px 2px 0 #000;
-				font-family: 'Arial Black', sans-serif;
-				box-shadow:
-					inset 0 1px 0 #c9a961,
-					0 2px 0 #3d2f1f;
+				font-weight: 700;
+				color: #fff;
+				text-shadow: 0 1px 4px rgba(0, 50, 150, 0.65), 0 0 16px rgba(80, 180, 255, 0.4);
+				position: relative;
+				overflow: hidden;
+				box-shadow: 0 2px 8px rgba(10, 60, 180, 0.18);
+			}
+
+			.retro-category-header::before {
+				content: '';
+				position: absolute;
+				top: 0; left: 0; right: 0;
+				height: 52%;
+				background: linear-gradient(180deg,
+					rgba(255, 255, 255, 0.62) 0%,
+					rgba(255, 255, 255, 0.14) 100%);
+				pointer-events: none;
 			}
 
 			.collapsible-header {
@@ -415,18 +499,24 @@ const colorClasses = {
 				user-select: none;
 				transition: background 0.2s;
 				margin: -16px -16px 0 -16px !important;
+				border-radius: 11px !important;
 			}
 
 			.collapsible-header.expanded {
 				margin: -16px -16px 16px -16px !important;
+				border-radius: 11px 11px 0 0 !important;
 			}
 
 			.collapsible-header:hover {
-				background: linear-gradient(180deg, #b59a64 0%, #9b7f57 100%);
+				background: linear-gradient(180deg,
+					rgba(180, 230, 255, 0.78) 0%,
+					rgba(75, 165, 250, 0.68) 48%,
+					rgba(35, 120, 220, 0.74) 49%,
+					rgba(20, 100, 200, 0.70) 100%);
 			}
 
 			.collapsible-header:active {
-				background: linear-gradient(180deg, #8b6f47 0%, #7a6344 100%);
+				background: linear-gradient(180deg, rgba(50, 130, 230, 0.88) 0%, rgba(20, 90, 200, 0.85) 100%);
 			}
 
 			.category-chevron {
@@ -434,6 +524,8 @@ const colorClasses = {
 				margin-right: 8px;
 				transition: transform 0.3s ease;
 				font-size: 0.9rem;
+				position: relative;
+				z-index: 1;
 			}
 
 			.collapsible-header.expanded .category-chevron {
@@ -453,19 +545,21 @@ const colorClasses = {
 				margin-top: 16px;
 			}
 
-			/* Minigame Styles */
+			/* Minigame UI */
 			.retro-score {
-				background: linear-gradient(135deg, #c9a961 0%, #a58a54 100%);
-				border: 4px outset #d4af6a;
+				background: rgba(255, 255, 255, 0.18);
+				backdrop-filter: blur(20px) saturate(180%);
+				-webkit-backdrop-filter: blur(20px) saturate(180%);
+				border: 1px solid rgba(255, 255, 255, 0.6);
+				border-bottom-color: rgba(255, 255, 255, 0.2);
+				border-radius: 13px;
 				padding: 12px 20px;
 				font-size: 1.25rem;
-				font-weight: bold;
-				color: #ffd700;
-				text-shadow: 2px 2px 0 #000;
-				font-family: 'Arial Black', sans-serif;
+				font-weight: 700;
+				color: #0d47a1;
 				box-shadow:
-					0 4px 0 #5c4a2f,
-					0 4px 8px rgba(0, 0, 0, 0.6);
+					0 2px 0 rgba(255, 255, 255, 0.7) inset,
+					0 6px 20px rgba(10, 60, 180, 0.2);
 			}
 
 			.retro-shop {
@@ -480,17 +574,21 @@ const colorClasses = {
 			}
 
 			.shop-button {
-				background: linear-gradient(135deg, #c9a961 0%, #a58a54 100%);
-				border: 3px outset #d4af6a;
+				background: rgba(255, 255, 255, 0.18);
+				backdrop-filter: blur(16px) saturate(160%);
+				-webkit-backdrop-filter: blur(16px) saturate(160%);
+				border: 1px solid rgba(255, 255, 255, 0.6);
+				border-bottom-color: rgba(255, 255, 255, 0.2);
+				border-radius: 11px;
 				padding: 8px 12px;
 				font-size: 0.9rem;
-				font-weight: bold;
-				color: #ffd700;
-				text-shadow: 1px 1px 0 #000;
-				font-family: 'Arial Black', sans-serif;
-				box-shadow: 0 3px 0 #5c4a2f, 0 3px 6px rgba(0, 0, 0, 0.6);
+				font-weight: 700;
+				color: #0d47a1;
+				box-shadow:
+					0 2px 0 rgba(255, 255, 255, 0.7) inset,
+					0 4px 12px rgba(10, 60, 180, 0.16);
 				cursor: pointer;
-				transition: all 0.1s;
+				transition: all 0.15s;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
@@ -498,22 +596,26 @@ const colorClasses = {
 			}
 
 			.shop-button:hover {
-				background: linear-gradient(135deg, #d4af6a 0%, #b59a64 100%);
+				background: rgba(255, 255, 255, 0.35);
+				box-shadow:
+					0 2px 0 rgba(255, 255, 255, 0.8) inset,
+					0 6px 18px rgba(10, 60, 180, 0.22);
 			}
 
 			.shop-button:active {
-				transform: translateY(2px);
-				box-shadow: 0 1px 0 #5c4a2f, 0 1px 3px rgba(0, 0, 0, 0.6);
+				transform: translateY(1px);
+				box-shadow: 0 1px 4px rgba(10, 60, 180, 0.15);
 			}
 
 			.shop-button:disabled {
-				opacity: 0.5;
+				opacity: 0.4;
 				cursor: not-allowed;
 			}
 
 			.shop-button.purchased {
-				background: linear-gradient(135deg, #6b8e23 0%, #556b2f 100%);
-				border-color: #8fbc8f;
+				background: rgba(100, 220, 130, 0.22);
+				border-color: rgba(120, 230, 140, 0.6);
+				color: #1b5e20;
 			}
 
 			.shop-name {
@@ -522,35 +624,53 @@ const colorClasses = {
 
 			.shop-cost {
 				font-size: 0.75rem;
-				color: #ffed4e;
+				color: #1565c0;
 			}
 
+			/* Toggle button — glassy blue pill */
 			.toggle-button {
-				background: linear-gradient(135deg, #4169e1 0%, #1e3a8a 100%);
-				border: 3px outset #6495ed;
+				background: linear-gradient(180deg,
+					rgba(130, 200, 255, 0.72) 0%,
+					rgba(40, 120, 230, 0.65) 48%,
+					rgba(20, 95, 210, 0.70) 49%,
+					rgba(10, 75, 190, 0.67) 100%);
+				backdrop-filter: blur(12px) saturate(150%);
+				-webkit-backdrop-filter: blur(12px) saturate(150%);
+				border: 1px solid rgba(255, 255, 255, 0.55);
+				border-bottom-color: rgba(255, 255, 255, 0.15);
+				border-radius: 11px;
 				padding: 8px 12px;
 				font-size: 0.8rem;
-				font-weight: bold;
+				font-weight: 700;
 				color: white;
-				text-shadow: 1px 1px 0 #000;
-				font-family: 'Arial Black', sans-serif;
-				box-shadow: 0 3px 0 #0f1f47, 0 3px 6px rgba(0, 0, 0, 0.6);
+				text-shadow: 0 1px 3px rgba(0, 40, 140, 0.6);
+				box-shadow:
+					0 2px 0 rgba(255, 255, 255, 0.45) inset,
+					0 4px 10px rgba(10, 60, 180, 0.22);
 				cursor: pointer;
-				transition: all 0.1s;
+				transition: all 0.12s;
 			}
 
 			.toggle-button:hover {
-				background: linear-gradient(135deg, #5a7fef 0%, #2e4a9a 100%);
+				background: linear-gradient(180deg,
+					rgba(160, 220, 255, 0.80) 0%,
+					rgba(60, 145, 245, 0.72) 48%,
+					rgba(35, 115, 225, 0.78) 49%,
+					rgba(20, 95, 205, 0.74) 100%);
 			}
 
 			.toggle-button:active {
-				transform: translateY(2px);
-				box-shadow: 0 1px 0 #0f1f47, 0 1px 3px rgba(0, 0, 0, 0.6);
+				transform: translateY(1px);
+				box-shadow: 0 1px 3px rgba(10, 60, 180, 0.2);
 			}
 
 			.toggle-button.active {
-				background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-				border-color: #4ade80;
+				background: linear-gradient(180deg,
+					rgba(130, 235, 155, 0.80) 0%,
+					rgba(40, 180, 90, 0.72) 48%,
+					rgba(20, 155, 70, 0.76) 49%,
+					rgba(10, 130, 55, 0.72) 100%);
+				border-color: rgba(160, 255, 170, 0.55);
 			}
 
 			.game-coin {
@@ -580,10 +700,11 @@ const colorClasses = {
 					transform: scale(0);
 				}
 				50% {
+					opacity: 0.9;
 					transform: scale(1.2);
 				}
 				100% {
-					opacity: 1;
+					opacity: 0.65;
 					transform: scale(1);
 				}
 			}
@@ -928,12 +1049,12 @@ const colorClasses = {
 
 				// Apply purple background
 				function applyPurple(enabled) {
-					const body = document.body;
+					const tint = document.getElementById('bg-tint');
 					if (enabled) {
-						body.style.background = 'repeating-linear-gradient(45deg, #4a1d4a, #4a1d4a 10px, #6b2d6b 10px, #6b2d6b 20px)';
+						tint.style.background = 'rgba(120, 0, 180, 0.42)';
 						purpleToggle.classList.add('active');
 					} else {
-						body.style.background = 'repeating-linear-gradient(45deg, #2d5016, #2d5016 10px, #3a6b1e 10px, #3a6b1e 20px)';
+						tint.style.background = 'rgba(30, 110, 200, 0.38)';
 						purpleToggle.classList.remove('active');
 					}
 				}
@@ -941,38 +1062,45 @@ const colorClasses = {
 				// Apply evil mode
 				function applyEvil(enabled) {
 					const pfp = document.querySelector('.retro-avatar-inner img');
-					const body = document.body;
-					const panels = document.querySelectorAll('.retro-panel, .retro-category-box, .retro-score, .retro-shop');
-					const yellowTexts = document.querySelectorAll('.retro-title-text, .retro-quest-title, .retro-category-header, #score, .shop-button');
-					const brownElements = document.querySelectorAll('.retro-panel, .retro-category-box, .retro-category-header, .retro-score, .shop-button');
+					const tint = document.getElementById('bg-tint');
+					const glassElements = document.querySelectorAll('.retro-panel, .retro-category-box, .retro-quest-item, .retro-stat-box, .retro-score, .shop-button');
+					const titleBars = document.querySelectorAll('.retro-title-bar, .retro-category-header');
+					const blueTexts = document.querySelectorAll('.retro-title-text, .retro-quest-title, .retro-label, .retro-value, .retro-quest-text, .retro-employer-text, .retro-category-header, #score, .shop-button');
+					const dateBadges = document.querySelectorAll('.retro-date-badge');
 					const nameElement = document.querySelector('.retro-wordart');
 
 					if (enabled) {
 						if (pfp) {
 							pfp.style.transform = 'rotate(180deg) scaleX(-1)';
-							pfp.style.filter = 'invert(1)';
+							pfp.style.filter = 'invert(1) sepia(1) saturate(3) hue-rotate(300deg)';
 						}
-						body.style.background = 'repeating-linear-gradient(45deg, #2d0a0a, #2d0a0a 10px, #4a1515 10px, #4a1515 20px)';
+						tint.style.background = 'rgba(80, 0, 0, 0.72)';
 
-						// Change name to evil version
+						// Evil name
 						if (nameElement) {
+							nameElement.style.color = '#ffbbbb';
+						nameElement.style.textShadow = '0 0 16px rgba(255,0,0,0.5), 0 2px 6px rgba(80,0,0,0.8)';
 							nameElement.textContent = 'Wichael Mard';
 						}
 
-						// Change yellow to red
-						yellowTexts.forEach(el => {
-							el.style.color = '#ff4444';
+						// Darken glass panels to blood-red tint
+						glassElements.forEach(el => {
+							el.style.background = 'rgba(100, 0, 0, 0.38)';
+							el.style.borderColor = 'rgba(255, 60, 60, 0.35)';
 						});
 
-						// Change brown backgrounds to orange
-						brownElements.forEach(el => {
-							if (el.classList.contains('retro-panel') || el.classList.contains('retro-category-box')) {
-								el.style.background = 'linear-gradient(135deg, #d4691e 0%, #b35a1a 100%)';
-							} else if (el.classList.contains('retro-category-header')) {
-								el.style.background = 'linear-gradient(180deg, #d4691e 0%, #b35a1a 100%)';
-							} else if (el.classList.contains('retro-score') || el.classList.contains('shop-button')) {
-								el.style.background = 'linear-gradient(135deg, #d4691e 0%, #b35a1a 100%)';
-							}
+						// Dark red title bars
+						titleBars.forEach(el => {
+							el.style.background = 'linear-gradient(180deg, rgba(180, 20, 20, 0.88) 0%, rgba(90, 0, 0, 0.85) 100%)';
+						});
+
+						// Crimson text
+						blueTexts.forEach(el => { el.style.color = '#ffd5d5'; });
+
+						// Blood-red date badges
+						dateBadges.forEach(el => {
+							el.style.background = 'linear-gradient(180deg, rgba(200, 30, 30, 0.92) 0%, rgba(110, 0, 0, 0.88) 100%)';
+						el.style.color = '#ffd5d5';
 						});
 
 						evilToggle.classList.add('active');
@@ -984,22 +1112,22 @@ const colorClasses = {
 
 						// Reset name
 						if (nameElement) {
+							nameElement.style.color = '';
+						nameElement.style.textShadow = '';
 							nameElement.textContent = 'Michael Ward';
 						}
 
-						// Reset colors
-						yellowTexts.forEach(el => {
-							el.style.color = '';
-						});
-						brownElements.forEach(el => {
-							el.style.background = '';
-						});
+						// Reset all inline styles
+						glassElements.forEach(el => { el.style.background = ''; el.style.borderColor = ''; });
+						titleBars.forEach(el => { el.style.background = ''; });
+						blueTexts.forEach(el => { el.style.color = ''; });
+						dateBadges.forEach(el => { el.style.background = ''; el.style.color = ''; });
 
-						// Apply purple if it's enabled
+						// Restore tint
 						if (toggleStates.purple) {
 							applyPurple(true);
 						} else {
-							body.style.background = 'repeating-linear-gradient(45deg, #2d5016, #2d5016 10px, #3a6b1e 10px, #3a6b1e 20px)';
+							tint.style.background = 'rgba(30, 110, 200, 0.38)';
 						}
 
 						evilToggle.classList.remove('active');
