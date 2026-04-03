@@ -5,7 +5,7 @@
       {
         "title": "Micromouse",
         "date": "October 2023 - May 2025",
-        "description": "Built an autonomous maze-solving robot, or 'micromouse', from the ground up. Using both Autodesk Fusion 360 and KiCad, I designed custom schematics and PCBs. My first iteration competed in the 2024 All American Micromouse Competition (AAMC24) and got 5th place. My second iteration (significantly more compact and smooth) got 3rd in AAMC25 the following year.",
+        "description": "Autonomous maze-solving robot built from scratch with custom PCBs. 5th place at AAMC24, 3rd at AAMC25.",
         "links": [
           { "label": "GitHub", "url": "https://github.com/Mykol-Word/the-harness" },
           { "label": "21.64 (sec) Completion", "url": "https://www.youtube.com/live/5uL4w6jP68s?si=Gb5_aMwtCqog30GL&t=6554" }
@@ -14,9 +14,39 @@
       {
         "title": "FPGA Digital Design and Verification",
         "date": "October 2024 - March 2025",
-        "description": "In this project I explored the fundamentals of digital hardware design and verification using SystemVerilog on an Altera DE10-Lite FPGA. I implemented a basic arithmetic logic unit (ALU) and a simple slot machine. To extend functionality, I developed custom I²C and VGA drivers to interface with external peripherals and display output on a monitor. Overall, learned a lot about modular design, RTL development, and testbenching.",
+        "description": "Digital hardware design and verification using SystemVerilog on an Altera DE10-Lite FPGA. Built an ALU and slot machine, with custom I2C and VGA drivers.",
         "links": [
           { "label": "GitHub", "url": "https://github.com/Mykol-Word/dav-24" }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Game Development",
+    "projects": [
+      {
+        "title": "Slick Nick",
+        "date": "February 2026",
+        "description": "Fast paced, endless runner made in Unity for the Big Mode 2026 game jam. Handled much of the player controller programming, along with several models and shaders. Scored top 15% in all categories and top 10% in fun.",
+        "links" : [
+          { "label": "Play ‘Slick Nick’", "url": "https://purpleshrimp.itch.io/slick-nick"}
+        ]
+      },
+      {
+        "title": "Runner Boy",
+        "date": "January 2025",
+        "description": "Endless runner built in C# using s&box (Facepunch’s Source 2 engine). Features dynamic obstacles, score tracking, and difficulty scaling.",
+        "links" : [
+          { "label": "GitHub", "url": "https://github.com/Mykol-Word/runner-boy"}
+        ]
+      },
+      {
+        "title": "’MoreHats’ Mod",
+        "date": "August 2025",
+        "description": "Mod for ‘Last Train Outta Wormtown’ that adds several custom hats. Models made in Blender, packaged in Unity, and injected into the game via BepInEx.",
+        "links" : [
+          { "label": "GitHub", "url": "https://github.com/Mykol-Word/MoreHats"},
+          { "label": "Mod Page", "url": "https://thunderstore.io/c/last-train-outta-wormtown/p/Mykol_Word/MoreHats/"}
         ]
       }
     ]
@@ -27,49 +57,18 @@
       {
         "title": "Terminal Task Manager",
         "date": "February 2025",
-        "description": "I didn't want to use a bulky task manager, so I made my own lightweight terminal-based task manager using C++. Tasks are persistently stored in custom task-object format in a local file. A custom parser then reconstructs the tasks upon running the application. It supports a set of terminal commands to add, delete, archive, and modify tasks.",
+        "description": "Lightweight terminal task manager in C++. Tasks persist to a local file via a custom format and parser, with commands to add, delete, archive, and modify.",
         "links" : [
           { "label": "GitHub", "url": "https://github.com/Mykol-Word/task-manager"}
         ]
       },
       {
-        "title": "Worm Escape Game",
-        "date": "September 2024",
-        "description": "A web-based simulation of the escape mechanics from 'Last Train Out of Wormtown.' It uses a React frontend, Typescript, and Vite for building. I never got around to finishing the project (only the 'Play' and 'Home' pages work), but the core functionality of the game works (You must click on the left-most image to start (i.e. focus it). Use 'WASD' for the arrows, and spacebar for the jump).",
-        "links" : [
-          { "label": "GitHub", "url": "https://github.com/Mykol-Word/worm-escape-game"},
-          { "label": "Play 'Worm Escape'", "url": "https://mykol-word.github.io/worm-escape-game/"}
-        ]
-      },
-            {
         "title": "Personal Website",
         "date": "October 2025",
-        "description": "I built this retro-styled personal website site using Astro as the framework. I tried to capture the aesthetic of old-2010s UI (think Windows 7 era). I almost exclusively used Claude Code to build the site, only writing a few lines of code when it was easier/faster than prompting. This project was a way for me to test the waters of Claude Code's capabilities, and so far I am impressed (I also hate making websites).",
+        "description": "This site. Retro-styled with a Windows 7 aesthetic, built in Astro almost entirely via Claude Code.",
         "links" : [
           { "label": "GitHub", "url": "https://github.com/Mykol-Word/michael-ward"},
           { "label": "Self Reference?", "url": "https://mykol-word.github.io/michael-ward/"}
-        ]
-      }
-    ]
-  },
-  {
-    "category": "Game Development",
-    "projects": [
-      {
-        "title": "Runner Boy",
-        "date": "January 2025",
-        "description": "'Runner Boy' is an endless runner game I developed in s&box, Facepunch’s Source 2–based game engine, using C#. The game itself features dynamic obstacle spawning, score tracking, and difficulty scaling. s&box was a rather new game engine, so with limited documentation, I had to figure a lot of things out through experimentation and the community. Even though the learning curve was really-steep, I still had a great time learning to use a new environment!",
-        "links" : [
-          { "label": "GitHub", "url": "https://github.com/Mykol-Word/runner-boy"}
-        ]
-      },
-      {
-        "title": "'MoreHats' Mod",
-        "date": "August 2025",
-        "description": "This is a mod for 'Last Train Outta Wormtown' that adds custom hats to the game. For such a simple concept, it took a suprising amount of work and software to get the job done. I had to import/create models in Blender, import them into Unity to create and package GameObjects that match the structure of the in-game hat objects, then use a C# DLL decompiler to understand the existing game hat-framework, and finally integrate them into the game using BepInEx to inject my code and assets.",
-        "links" : [
-          { "label": "GitHub", "url": "https://github.com/Mykol-Word/MoreHats"},
-          { "label": "Mod Page", "url": "https://thunderstore.io/c/last-train-outta-wormtown/p/Mykol_Word/MoreHats/"}
         ]
       }
     ]
