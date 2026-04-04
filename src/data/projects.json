@@ -65,7 +65,7 @@
       {
         "title": "Personal Website",
         "date": "October 2025",
-        "description": "This site. Retro-styled with a Windows 7 aesthetic, built in Astro almost entirely via Claude Code.",
+        "description": "This site. Retro-styled with a (new) fruitiger-aero aesthetic, built in Astro almost entirely via Claude Code.",
         "links" : [
           { "label": "GitHub", "url": "https://github.com/Mykol-Word/michael-ward"},
           { "label": "Self Reference?", "url": "https://mykol-word.github.io/michael-ward/"}

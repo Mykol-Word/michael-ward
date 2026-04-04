@@ -44,29 +44,34 @@ const colorClasses = {
 	</head>
 	<body class="min-h-screen relative" style="background-size: cover; background-position: center; background-attachment: fixed;">
 		<div id="bg-tint" style="position: fixed; inset: 0; z-index: 0; pointer-events: none; background: rgba(30, 110, 200, 0.38); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);"></div>
+		<div id="simple-mode-panel" class="fixed top-4 left-4 z-50 simple-panel">
+			<p class="simple-panel-desc">Not a fan of the style, or hard to read? Enable simple mode.</p>
+			<button id="simple-btn" class="simple-panel-btn">I hate fun</button>
+		</div>
+
 		<div id="score-display" class="fixed top-4 right-4 z-50 retro-score">
-			Coins: <span id="score">0</span>
+			Bubbles: <span id="score">0</span>
 		</div>
 
 		<div id="shop-display" class="fixed top-24 right-4 z-50 retro-shop">
 			<div class="shop-item" id="purple-item">
 				<button id="purple-btn" class="shop-button" data-cost="15" title="Purple is my favorite color!">
 					<span class="shop-name">Purple BG</span>
-					<span class="shop-cost">15 Coins</span>
+					<span class="shop-cost">15 Bubbles</span>
 				</button>
 				<button id="purple-toggle" class="toggle-button" style="display: none;" title="Toggle purple background">Toggle</button>
 			</div>
 			<div class="shop-item" id="evil-item">
 				<button id="evil-btn" class="shop-button" data-cost="40" title="Turn the site evil - inverted colors, dark theme">
 					<span class="shop-name">Evil Mode</span>
-					<span class="shop-cost">40 Coins</span>
+					<span class="shop-cost">40 Bubbles</span>
 				</button>
 				<button id="evil-toggle" class="toggle-button" style="display: none;" title="Toggle evil mode">Toggle</button>
 			</div>
 			<div class="shop-item" id="newcoin-item">
 				<button id="newcoin-btn" class="shop-button" data-cost="50" title="Replace coin with a new image">
 					<span class="shop-name">New Coin</span>
-					<span class="shop-cost">50 Coins</span>
+					<span class="shop-cost">50 Bubbles</span>
 				</button>
 				<button id="newcoin-toggle" class="toggle-button" style="display: none;" title="Toggle new coin">Toggle</button>
 			</div>
@@ -224,7 +229,7 @@ const colorClasses = {
 				border: 1px solid rgba(255, 255, 255, 0.55);
 				border-bottom-color: rgba(255, 255, 255, 0.2);
 				border-right-color: rgba(255, 255, 255, 0.2);
-				border-radius: 16px;
+				border-radius: 14px;
 				box-shadow:
 					0 2px 0 rgba(255, 255, 255, 0.6) inset,        /* top gloss edge */
 					0 -1px 0 rgba(0, 0, 0, 0.08) inset,            /* bottom inner shadow */
@@ -243,7 +248,7 @@ const colorClasses = {
 				-webkit-backdrop-filter: blur(12px) saturate(160%);
 				border: none;
 				border-bottom: 1px solid rgba(10, 60, 160, 0.25);
-				border-radius: 15px 15px 0 0;
+				border-radius: 13px 13px 0 0;
 				padding: 8px 16px;
 				margin: 0;
 				position: relative;
@@ -259,7 +264,7 @@ const colorClasses = {
 				background: linear-gradient(180deg,
 					rgba(255, 255, 255, 0.65) 0%,
 					rgba(255, 255, 255, 0.18) 100%);
-				border-radius: 15px 15px 0 0;
+				border-radius: 13px 13px 0 0;
 				pointer-events: none;
 			}
 
@@ -284,7 +289,7 @@ const colorClasses = {
 			.retro-avatar {
 				width: 140px;
 				height: 140px;
-				border-radius: 14px;
+				border-radius: 12px;
 				border: 1px solid rgba(255, 255, 255, 0.7);
 				border-bottom-color: rgba(255, 255, 255, 0.2);
 				box-shadow:
@@ -328,12 +333,12 @@ const colorClasses = {
 
 			/* Stat Boxes */
 			.retro-stat-box {
-				background: rgba(255, 255, 255, 0.2);
+				background: rgba(255, 255, 255, 0.45);
 				backdrop-filter: blur(14px) saturate(160%);
 				-webkit-backdrop-filter: blur(14px) saturate(160%);
 				border: 1px solid rgba(255, 255, 255, 0.55);
 				border-bottom-color: rgba(255, 255, 255, 0.15);
-				border-radius: 9px;
+				border-radius: 8px;
 				padding: 8px 12px;
 				box-shadow:
 					0 2px 0 rgba(255, 255, 255, 0.6) inset,
@@ -366,7 +371,7 @@ const colorClasses = {
 				-webkit-backdrop-filter: blur(18px) saturate(170%);
 				border: 1px solid rgba(255, 255, 255, 0.55);
 				border-bottom-color: rgba(255, 255, 255, 0.15);
-				border-radius: 12px;
+				border-radius: 10px;
 				padding: 12px 16px;
 				position: relative;
 				overflow: hidden;
@@ -386,7 +391,7 @@ const colorClasses = {
 				background: linear-gradient(180deg,
 					rgba(255, 255, 255, 0.35) 0%,
 					rgba(255, 255, 255, 0.0) 100%);
-				border-radius: 12px 12px 0 0;
+				border-radius: 10px 10px 0 0;
 				pointer-events: none;
 			}
 
@@ -454,7 +459,7 @@ const colorClasses = {
 				backdrop-filter: blur(20px) saturate(160%);
 				-webkit-backdrop-filter: blur(20px) saturate(160%);
 				border: 1px solid rgba(255, 255, 255, 0.45);
-				border-radius: 13px;
+				border-radius: 12px;
 				padding: 16px;
 				box-shadow:
 					0 2px 0 rgba(255, 255, 255, 0.5) inset,
@@ -471,7 +476,7 @@ const colorClasses = {
 				backdrop-filter: blur(12px) saturate(150%);
 				-webkit-backdrop-filter: blur(12px) saturate(150%);
 				border: none;
-				border-radius: 11px 11px 0 0;
+				border-radius: 10px 10px 0 0;
 				padding: 8px 16px;
 				margin: -16px -16px 16px -16px;
 				font-size: 1.25rem;
@@ -499,12 +504,12 @@ const colorClasses = {
 				user-select: none;
 				transition: background 0.2s;
 				margin: -16px -16px 0 -16px !important;
-				border-radius: 11px !important;
+				border-radius: 10px !important;
 			}
 
 			.collapsible-header.expanded {
 				margin: -16px -16px 16px -16px !important;
-				border-radius: 11px 11px 0 0 !important;
+				border-radius: 10px 10px 0 0 !important;
 			}
 
 			.collapsible-header:hover {
@@ -552,7 +557,7 @@ const colorClasses = {
 				-webkit-backdrop-filter: blur(20px) saturate(180%);
 				border: 1px solid rgba(255, 255, 255, 0.6);
 				border-bottom-color: rgba(255, 255, 255, 0.2);
-				border-radius: 13px;
+				border-radius: 12px;
 				padding: 12px 20px;
 				font-size: 1.25rem;
 				font-weight: 700;
@@ -579,7 +584,7 @@ const colorClasses = {
 				-webkit-backdrop-filter: blur(16px) saturate(160%);
 				border: 1px solid rgba(255, 255, 255, 0.6);
 				border-bottom-color: rgba(255, 255, 255, 0.2);
-				border-radius: 11px;
+				border-radius: 10px;
 				padding: 8px 12px;
 				font-size: 0.9rem;
 				font-weight: 700;
@@ -638,7 +643,7 @@ const colorClasses = {
 				-webkit-backdrop-filter: blur(12px) saturate(150%);
 				border: 1px solid rgba(255, 255, 255, 0.55);
 				border-bottom-color: rgba(255, 255, 255, 0.15);
-				border-radius: 11px;
+				border-radius: 10px;
 				padding: 8px 12px;
 				font-size: 0.8rem;
 				font-weight: 700;
@@ -704,7 +709,7 @@ const colorClasses = {
 					transform: scale(1.2);
 				}
 				100% {
-					opacity: 0.65;
+					opacity: 1;
 					transform: scale(1);
 				}
 			}
@@ -894,6 +899,23 @@ const colorClasses = {
 
 			/* Mobile Responsive Styles */
 			@media (max-width: 640px) {
+				#simple-mode-panel {
+					position: static;
+					display: block;
+					max-width: none;
+					margin: 8px 8px 0 8px;
+					padding: 8px 12px;
+				}
+
+				.simple-panel-desc {
+					margin-bottom: 8px;
+					font-size: 0.78rem;
+				}
+
+				.simple-panel-btn {
+					width: 100%;
+				}
+
 				.retro-title-text {
 					font-size: 1rem;
 				}
@@ -953,6 +975,170 @@ const colorClasses = {
 				.retro-employer-text {
 					font-size: 0.75rem;
 				}
+			}
+
+			/* ============================================
+			   Simple Mode Panel
+			   ============================================ */
+			.simple-panel {
+				background: rgba(255, 255, 255, 0.18);
+				backdrop-filter: blur(18px) saturate(160%);
+				-webkit-backdrop-filter: blur(18px) saturate(160%);
+				border: 1px solid rgba(255, 255, 255, 0.55);
+				border-radius: 10px;
+				padding: 10px 14px;
+				max-width: 210px;
+				box-shadow: 0 2px 0 rgba(255,255,255,0.6) inset, 0 6px 20px rgba(10,60,180,0.14);
+			}
+
+			.simple-panel-desc {
+				font-size: 0.85rem;
+				color: #0d2e52;
+				margin-bottom: 10px;
+				line-height: 1.45;
+				font-weight: 500;
+			}
+
+			.simple-panel-btn {
+				background: rgba(255, 255, 255, 0.32);
+				backdrop-filter: blur(8px);
+				border: 1px solid rgba(255, 255, 255, 0.6);
+				border-radius: 8px;
+				padding: 8px 12px;
+				font-size: 0.95rem;
+				font-weight: 700;
+				color: #0d47a1;
+				cursor: pointer;
+				width: 100%;
+				box-shadow: 0 2px 0 rgba(255,255,255,0.7) inset, 0 3px 8px rgba(10,60,180,0.15);
+				transition: background 0.15s;
+			}
+
+			.simple-panel-btn:hover { background: rgba(255,255,255,0.5); }
+			.simple-panel-btn.active { background: rgba(100,220,130,0.35); border-color: rgba(100,220,110,0.6); color: #1b5e20; }
+
+			/* ============================================
+			   Simple Mode Overrides
+			   ============================================ */
+			body.simple-mode {
+				background: #f5f5f5 !important;
+				background-image: none !important;
+				background-attachment: auto !important;
+			}
+
+			body.simple-mode #bg-tint { display: none; }
+			body.simple-mode #score-display { display: none !important; }
+			body.simple-mode #shop-display { display: none !important; }
+
+			body.simple-mode .simple-panel {
+				background: #fff;
+				backdrop-filter: none;
+				-webkit-backdrop-filter: none;
+				border: 1px solid #ccc;
+				box-shadow: none;
+			}
+			body.simple-mode .simple-panel-desc { color: #444; }
+			body.simple-mode .simple-panel-btn {
+				background: #e8e8e8;
+				backdrop-filter: none;
+				border: 1px solid #aaa;
+				color: #333;
+				box-shadow: none;
+			}
+			body.simple-mode .simple-panel-btn.active { background: #c8f0cc; border-color: #7bc87f; color: #1b5e20; }
+
+			body.simple-mode .retro-panel {
+				background: #ffffff;
+				backdrop-filter: none;
+				-webkit-backdrop-filter: none;
+				border: 1px solid #ddd;
+				border-radius: 2px;
+				box-shadow: none;
+			}
+
+			body.simple-mode .retro-title-bar {
+				background: #e8e8e8;
+				backdrop-filter: none;
+				-webkit-backdrop-filter: none;
+				border-bottom: 1px solid #ccc;
+				border-radius: 2px 2px 0 0;
+				box-shadow: none;
+			}
+			body.simple-mode .retro-title-bar::before { display: none; }
+
+			body.simple-mode .retro-title-text {
+				color: #222;
+				text-shadow: none;
+				font-weight: 700;
+			}
+
+			body.simple-mode .retro-wordart {
+				color: #111;
+				text-shadow: none;
+			}
+
+			body.simple-mode .retro-stat-box {
+				background: #f9f9f9;
+				backdrop-filter: none;
+				border: 1px solid #e0e0e0;
+				border-radius: 4px;
+				box-shadow: none;
+			}
+
+			body.simple-mode .retro-label { color: #333; }
+			body.simple-mode .retro-value { color: #111; }
+			body.simple-mode .retro-link { color: #0066cc; }
+			body.simple-mode .retro-link:hover { color: #004499; }
+
+			body.simple-mode .retro-quest-item {
+				background: #fafafa;
+				backdrop-filter: none;
+				-webkit-backdrop-filter: none;
+				border: 1px solid #e0e0e0;
+				border-radius: 4px;
+				box-shadow: none;
+			}
+			body.simple-mode .retro-quest-item::before { display: none; }
+			body.simple-mode .retro-quest-item:hover { transform: none; box-shadow: none; }
+
+			body.simple-mode .retro-quest-title { color: #111; }
+			body.simple-mode .retro-quest-text { color: #333; }
+			body.simple-mode .retro-employer-text { color: #555; }
+
+			body.simple-mode .retro-date-badge {
+				background: #e8e8e8;
+				backdrop-filter: none;
+				color: #333;
+				border: 1px solid #ccc;
+				text-shadow: none;
+				box-shadow: none;
+			}
+			body.simple-mode .retro-date-badge::before { display: none; }
+
+			body.simple-mode .retro-category-box {
+				background: #f5f5f5;
+				backdrop-filter: none;
+				border: 1px solid #ddd;
+				border-radius: 4px;
+				box-shadow: none;
+			}
+
+			body.simple-mode .retro-category-header {
+				background: #e8e8e8;
+				backdrop-filter: none;
+				color: #222;
+				text-shadow: none;
+				border-radius: 2px 2px 0 0;
+				box-shadow: none;
+			}
+			body.simple-mode .retro-category-header::before { display: none; }
+			body.simple-mode .collapsible-header:hover { background: #ddd; }
+			body.simple-mode .collapsible-header:active { background: #ccc; }
+
+			body.simple-mode .retro-avatar {
+				border: 2px solid #ccc;
+				border-radius: 2px;
+				box-shadow: none;
 			}
 		</style>
 
@@ -1244,9 +1430,13 @@ const colorClasses = {
 					// Use troll.png if newCoin is toggled, otherwise use coin.png
 					const coinImage = toggleStates.newCoin ? 'troll.png' : 'coin.png';
 					img.src = baseUrl + 'images/' + coinImage;
-					img.style.width = '50px';
-					img.style.height = '50px';
+					const coinSize = Math.round(75 * (window.innerWidth / 1920)) + 'px';
+					img.style.width = coinSize;
+					img.style.height = coinSize;
 					img.style.display = 'block';
+					const hues = [200, 270, 120, 0];
+					const hue = hues[Math.floor(Math.random() * hues.length)];
+					img.style.filter = `hue-rotate(${hue}deg) saturate(1.8)`;
 					coin.appendChild(img);
 
 					// Random position - avoid center content area
@@ -1297,11 +1487,38 @@ const colorClasses = {
 				}
 
 				// Spawn coins periodically
-				setInterval(createCoin, 750);
+				let coinInterval = setInterval(createCoin, 750);
 
 				// Initial coins
 				setTimeout(createCoin, 500);
 				setTimeout(createCoin, 1000);
+
+				// Simple mode
+				const simpleBtn = document.getElementById('simple-btn');
+				let simpleMode = localStorage.getItem('simpleMode') === 'true';
+
+				function applySimpleMode(enabled) {
+					if (enabled) {
+						document.body.classList.add('simple-mode');
+						clearInterval(coinInterval);
+						document.querySelectorAll('.game-coin').forEach(c => c.remove());
+						simpleBtn.classList.add('active');
+						simpleBtn.textContent = 'I love fun';
+					} else {
+						document.body.classList.remove('simple-mode');
+						coinInterval = setInterval(createCoin, 750);
+						simpleBtn.classList.remove('active');
+						simpleBtn.textContent = 'I hate fun';
+					}
+					localStorage.setItem('simpleMode', enabled);
+				}
+
+				simpleBtn.addEventListener('click', () => {
+					simpleMode = !simpleMode;
+					applySimpleMode(simpleMode);
+				});
+
+				if (simpleMode) applySimpleMode(true);
 			});
 		</script>
 	</body>
